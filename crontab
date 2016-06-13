@@ -1,0 +1,16 @@
+MAILTO=""
+
+# crontab according to http://www.unidata.ucar.edu/software/ldm/ldm-current/basics/configuring.html#cron
+
+# run ldm scour
+0 1,4,7,10,13,16,19,22 * * * bash -l -c 'ldmadmin scour'
+
+# Rotate logs
+0 0 * * * bash -l -c 'ldmadmin newlog'
+
+# performance metrics
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * bash -l -c 'ldmadmin addmetrics'
+0 0 * * 0 bash -l -c 'ldmadmin newmetrics'
+
+# check the LDM
+0,15,30,45 * * * * bash -l -c 'ldmadmin check >/dev/null' 
