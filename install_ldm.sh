@@ -14,7 +14,7 @@ cd /home/ldm/ldm-${v}/src
 
 make install > make.log 2>&1
 
-sudo make root-actions
+make root-actions
 
 # optional
 # make distclean
