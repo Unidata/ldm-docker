@@ -2,7 +2,7 @@
 
 set -x
 
-v=6.13.1
+v=6.13.2
 
 wget ftp://ftp.unidata.ucar.edu/pub/ldm/ldm-${v}.tar.gz
 
