@@ -4,9 +4,17 @@
 
 This repository contains files necessary to build and run a Docker container for the [LDM](http://www.unidata.ucar.edu/software/ldm/). 
 
+## Pulling the Container
+
+To pull the LDM container from the Docker Hub registry:
+
+      docker pull unidata/ldm:latest
+
+It is best to be on a fast network when pulling containers as they can be quite large.
+
 ## Building the Container
 
-To build the LDM Docker container:
+Alternatively, rather than pulling the container you can clone this repository and build the LDM Docker container yourself:
 
     docker build  -t unidata/ldm:latest .
 
@@ -66,6 +74,8 @@ In typical LDM usage, the `data` directory is mounted on a data volume that can 
 Once you have completed your `docker-compose.yml` setup, you can run the container with:
 
     docker-compose up -d
+
+Note that if you have not pulled or built the LDM Docker image, this command will implicitly pull the image.
 
 The output of such command should be something like:
 
