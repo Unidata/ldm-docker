@@ -79,7 +79,7 @@ Note that if you have not pulled or built the LDM Docker image, this command wil
 
 The output of such command should be something like:
 
-    Creating ldmdocker_ldm_1
+    Creating ldm
 
 ### Stopping LDM
 

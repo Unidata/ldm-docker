@@ -4,6 +4,7 @@
 ldm:
   # restart: always
   image: unidata/ldm:latest
+  container_name: ldm
   volumes:
     # change defaults to your liking
     - ./etc/:/home/ldm/etc/
