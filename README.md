@@ -104,7 +104,7 @@ There are often permission problems with the container not being able to write t
 
 To verify the LDM is alive you can run `ldmadmin config` **inside** the container. To do that, run:
 
-    docker exec -it `docker ps | tail -1 | cut -d " " -f 1` ldmadmin config
+    docker exec ldm ldmadmin config
 
 which should give output that looks something like:
 
@@ -144,3 +144,19 @@ which should give output that looks something like:
     ntpdate(1) timeout:    5
     time servers:          ntp.ucsd.edu ntp1.cs.wisc.edu ntppub.tamu.edu otc1.psu.edu timeserver.unidata.ucar.edu
     time-offset limit:     10
+## Running LDM (or Other Shell) Commands Inside the Container
+
+When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., `notifyme`). There are a couple of different ways you can accomplish this goal.
+
+1. You can enter the container with `docker exec -it <container name or ID> bash`. For example,
+
+ ```
+ $ docker exec -it ldm bash
+ [ldm@291c06984ded ~]$ notifyme -vl- -h idd.unidata.ucar.edu
+ ```
+
+2. Or you can simply execute the command from outside the container with `docker exec <container name or ID> <command>`. For example,
+
+ ```
+ docker exec ldm notifyme -vl- -h idd.unidata.ucar.edu
+ ```
