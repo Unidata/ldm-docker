@@ -4,6 +4,13 @@
 
 This repository contains files necessary to build and run a Docker container for the [LDM](http://www.unidata.ucar.edu/software/ldm/). 
 
+Available major versions:
+
+* `unidata/ldm` (currently `6.13.3`)
+* `unidata/ldm:latest` (currently `6.13.3`)
+* `unidata/ldm:6.13.3`
+* `unidata/ldm:6.13.2`
+
 ## Pulling the Container
 
 To pull the LDM container from the Docker Hub registry:
@@ -21,7 +28,6 @@ Alternatively, rather than pulling the container you can clone this repository a
 It is best to be on a fast network when building containers as there can be many intermediate layers to download.
 
 ## Configuring the LDM
-
 ### Run Configuration with `docker-compose`
 
 To run the LDM Docker container, beyond a basic Docker setup, we recommend installing [docker-compose](https://docs.docker.com/compose/).
@@ -73,7 +79,7 @@ In typical LDM usage, the `data` directory is mounted on a data volume that can 
 
 Once you have completed your `docker-compose.yml` setup, you can run the container with:
 
-    docker-compose up -d
+    docker-compose up -d ldm
 
 Note that if you have not pulled or built the LDM Docker image, this command will implicitly pull the image.
 
@@ -150,13 +156,22 @@ When using the LDM in any realistic scenario, you will want to execute LDM comma
 
 1. You can enter the container with `docker exec -it <container name or ID> bash`. For example,
 
- ```
+ ```bash
  $ docker exec -it ldm bash
  [ldm@291c06984ded ~]$ notifyme -vl- -h idd.unidata.ucar.edu
  ```
 
 2. Or you can simply execute the command from outside the container with `docker exec <container name or ID> <command>`. For example,
 
- ```
+ ```bash
  docker exec ldm notifyme -vl- -h idd.unidata.ucar.edu
  ```
+## Updating the LDM
+
+When Unidata releases a new version of the LDM, it is easy to update the container:
+
+```bash
+docker-compose stop
+docker pull unidata:ldm:latest
+docker-compose up -d ldm
+```
