@@ -94,7 +94,7 @@ RUN chmod 600 /var/spool/cron/ldm
 
 RUN chown -R ldm:ldm /home/ldm
 
-USER ldm
+USER root
 
 ##
 # Execute script.
