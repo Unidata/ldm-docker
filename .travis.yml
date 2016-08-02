@@ -12,7 +12,8 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - mkdir data logs && chmod -R 777 data logs
+  - mkdir ~/data ~/logs && chmod -R 777 ~/data ~/logs
+  - cp -r ./etc/* ~/etc
   - docker-compose up -d
   
 script:
