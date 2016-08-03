@@ -2,21 +2,15 @@
 
 set -x
 
-v=6.13.3
+wget ftp://ftp.unidata.ucar.edu/pub/ldm/ldm-${LDM_VERSION}.tar.gz
 
-wget ftp://ftp.unidata.ucar.edu/pub/ldm/ldm-${v}.tar.gz
+gunzip -c ldm-${LDM_VERSION}.tar.gz | pax -r '-s:/:/src/:'
 
-gunzip -c ldm-${v}.tar.gz | pax -r '-s:/:/src/:'
+cd /home/ldm/ldm-${LDM_VERSION}/src
 
-cd /home/ldm/ldm-${v}/src
-
-./configure
-
-# ./configure --disable-root-actions
+./configure --disable-root-actions
 
 make install > make.log 2>&1
-
-# make root-actions
 
 # optional
 # make distclean
