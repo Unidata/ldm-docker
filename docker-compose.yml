@@ -7,9 +7,9 @@ ldm:
   container_name: ldm
   volumes:
     # change defaults to your liking
-    - ./etc/:/home/ldm/etc/
-    - ./data/:/home/ldm/var/data/
-    - ./logs/:/home/ldm/var/logs/
+    - ~/etc/:/home/ldm/etc/
+    - /data/:/home/ldm/var/data/
+    - ~/logs/:/home/ldm/var/logs/
     - ./crontab:/var/spool/cron/ldm
   ports:
     - "388:388"
