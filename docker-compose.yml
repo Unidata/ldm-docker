@@ -10,6 +10,5 @@ ldm:
     - ./etc/:/home/ldm/etc/
     - ./data/:/home/ldm/var/data/
     - ./logs/:/home/ldm/var/logs/
-    - ./crontab:/var/spool/cron/ldm
   ports:
     - "388:388"
