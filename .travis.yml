@@ -13,7 +13,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - mkdir data logs && chmod -R 777 data logs
-  - docker-compose up -d
+  - docker-compose up -d ldm
   
 script:
-  - docker exec -it `docker ps | tail -1 | cut -d " " -f 1` ldmadmin config
+  - docker exec ldm ldmadmin config
