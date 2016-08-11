@@ -6,8 +6,9 @@ This repository contains files necessary to build and run a Docker container for
 
 Available major versions:
 
-* `unidata/ldm` (currently `6.13.3`)
-* `unidata/ldm:latest` (currently `6.13.3`)
+* `unidata/ldm` (currently `6.13.4`)
+* `unidata/ldm:latest` (currently `6.13.4`)
+* `unidata/ldm:6.13.4`
 * `unidata/ldm:6.13.3`
 * `unidata/ldm:6.13.2`
 
