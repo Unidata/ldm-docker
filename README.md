@@ -171,7 +171,7 @@ When using the LDM in any realistic scenario, you will want to execute LDM comma
 When Unidata releases a new version of the LDM, it is easy to update the container:
 
 ```bash
+docker pull unidata/ldm:latest
 docker-compose stop
-docker pull unidata:ldm:latest
 docker-compose up -d ldm
 ```
