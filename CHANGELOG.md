@@ -1,12 +1,27 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## 6.13.4 - 2016-08-17
+
+### Added
+
+- `CHANGELOG.md`
+
+### Changed
+
+- `README` improvements and typo corrections
+- correctly invoking `configure` and `make root-actions` do deal with port 388 (e.g., for LDM relay node scenario)
+- version update to `6.13.4` for `Dockerfile` and `README`
+- removed bogus `crontab` mount
+- Miscellaneous `Dockerfile` clean up
+- Miscellaneous `.travis.yml` clean up
+
 ## 6.13.3 - 2016-07-22
 
 ### Added
-- README additions
+- `README` additions
 - `docker-compose.yml` `ldm` container name reference
-- properly invoking `make root-actions` 
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.3...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.4...HEAD
+[6.13.4]: https://github.com/Unidata/ldm-docker/compare/v6.13.3...v6.13.4
 [6.13.3]: https://github.com/Unidata/ldm-docker/compare/v6.13.2...v6.13.3
