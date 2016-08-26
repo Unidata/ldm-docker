@@ -12,3 +12,7 @@ ldm:
     - ./logs/:/home/ldm/var/logs/
   ports:
     - "388:388"
+  ulimits:
+    nofile:
+      soft: 1024
+      hard: 1024
