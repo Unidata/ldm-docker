@@ -3,7 +3,7 @@
 ###
 ldm:
   # restart: always
-  image: unidata/ldm:latest
+  image: unidata/ldm-docker:6.13.4
   container_name: ldm
   volumes:
     # change defaults to your liking

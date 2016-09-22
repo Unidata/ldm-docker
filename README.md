@@ -6,7 +6,7 @@ This repository contains files necessary to build and run a Docker container for
 
 ## Versions
 
-- `unidata/ldm:6.13.4`
+- `unidata/ldm-docker:6.13.4`
 
 ## Configuring the LDM
 ### Run Configuration with `docker-compose`
@@ -152,7 +152,7 @@ When using the LDM in any realistic scenario, you will want to execute LDM comma
 When Unidata releases a new version of the LDM, it is easy to update the container:
 
 ```bash
-docker pull unidata/ldm:latest
+docker pull unidata/ldm-docker:<version>
 docker-compose stop
 docker-compose up -d ldm
 ```
