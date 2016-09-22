@@ -25,7 +25,7 @@ For anyone who has worked with the LDM, you will be familiar with the following 
 -   `var/logs`
 -   `var/queues`
 
-The `var/queues` directory will remain inside the container. The other directory paths will be mounted outside the container with `docker-compose.yml`
+These directory paths will be mounted outside the container with `docker-compose.yml`
 
 ### LDM Configuration Files
 

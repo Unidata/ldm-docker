@@ -9,6 +9,7 @@ ldm:
     # change defaults to your liking
     - ./etc/:/home/ldm/etc/
     - ./data/:/home/ldm/var/data/
+    - ./data/:/home/ldm/var/queues/
     - ./logs/:/home/ldm/var/logs/
   ports:
     - "388:388"
