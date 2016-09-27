@@ -28,11 +28,11 @@
   </metrics>
   <pqact>
     <config-path>/home/ldm/etc/pqact.conf</config-path>
-    <datadir-path>/home/ldm/var/data</datadir-path>
+    <datadir-path>/home/ldm</datadir-path>
   </pqact>
   <pqsurf>
     <config-path>/home/ldm/etc/pqsurf.conf</config-path>
-    <datadir-path>/home/ldm/var/data</datadir-path>
+    <datadir-path>/home/ldm</datadir-path>
   </pqsurf>
   <queue>
     <path>/home/ldm/var/queues/ldm.pq</path>
