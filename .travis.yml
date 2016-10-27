@@ -3,17 +3,10 @@ sudo: required
 services:
   - docker
 
-env:
-  DOCKER_COMPOSE_VERSION: 1.5.2
-
 before_install:
-  - docker build -t unidata/ldm-docker:latest .
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - mkdir data logs && chmod -R 777 data logs
-  - docker-compose up -d ldm
+  - docker build --no-cache -t unidata/ldm-docker:latest .
+  - mkdir data logs queues
+  - docker run --name ldm -d -v `pwd`/etc:/home/ldm/etc -v `pwd`/data:/home/ldm/var/data -v `pwd`/queues:/home/ldm/var/queues -v `pwd`/logs:/home/ldm/var/logs -p 388:388 unidata/ldm-docker:latest
   
 script:
   - docker exec ldm ldmadmin config

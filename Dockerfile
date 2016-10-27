@@ -29,7 +29,7 @@ RUN echo 'ldm:docker' | chpasswd
 # LDM version
 ###
 
-ENV LDM_VERSION 6.13.4
+ENV LDM_VERSION 6.13.5
 
 ###
 # LDM HOME
