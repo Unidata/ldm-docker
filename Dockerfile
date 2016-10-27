@@ -15,6 +15,25 @@ RUN yum update yum
 RUN yum install -y wget pax gcc libxml2-devel make libpng-dev rsyslog perl \
     zlib-devel bzip2 git curl perl sudo cronie bc net-tools man gnuplot
 
+
+###
+# gosu is a non-optimal way to deal with the mismatches between Unix user and
+# group IDs inside versus outside the container resulting in permission
+# headaches when writing to directory outside the container.
+###
+
+ENV GOSU_VERSION 1.10
+
+ENV GOSU_URL https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64
+
+RUN gpg --keyserver pgp.mit.edu --recv-keys \
+	B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& curl -sSL $GOSU_URL -o /bin/gosu \
+	&& chmod +x /bin/gosu \
+	&& curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc \
+	&& gpg --verify /tmp/gosu.asc /bin/gosu \
+	&& rm /tmp/gosu.asc
+
 ###
 # Set up ldm user account
 ###
@@ -54,12 +73,7 @@ RUN chmod +x $HOME/install_ldm.sh
 
 RUN chmod +x $HOME/install_ldm_root_actions.sh
 
-USER ldm
-
 RUN $HOME/install_ldm.sh
-
-# make root actions must be run as root
-USER root
 
 RUN $HOME/install_ldm_root_actions.sh
 
@@ -72,12 +86,6 @@ COPY crontab /var/spool/cron/ldm
 RUN chown ldm:ldm /var/spool/cron/ldm
 
 RUN chmod 600 /var/spool/cron/ldm
-
-###
-# back to user ldm
-###
-
-USER ldm
 
 ##
 # Set the path
@@ -103,7 +111,17 @@ COPY runldm.sh $HOME/
 COPY README.md $HOME/
 
 ##
+# entrypoint
+##
+
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+##
 # Execute script.
 ##
 
-CMD $HOME/runldm.sh
+CMD ["runldm.sh"]
