@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## 6.13.5 - 2016-11-01
+
+### Added
+
+- `gnuplot` to the container
+
+### Changed
+
+- suggested better default queue size
+- setting `/home/ldm` for `pqact` and `pqsurf` per Tom Y.
+- moving queue outside the container
+- dockerhub automated builds
+- ulimit set in `docker-compose.yml`
+- cleaning up `tar.gz` file (does not need to end up in container).
+
 ## 6.13.4 - 2016-08-17
 
 ### Added
@@ -22,6 +37,7 @@ All notable changes to this project will be documented in this file. This change
 - `README` additions
 - `docker-compose.yml` `ldm` container name reference
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.4...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.5...HEAD
+[6.13.5]: https://github.com/Unidata/ldm-docker/compare/v6.13.4...v6.13.5
 [6.13.4]: https://github.com/Unidata/ldm-docker/compare/v6.13.3...v6.13.4
 [6.13.3]: https://github.com/Unidata/ldm-docker/compare/v6.13.2...v6.13.3
