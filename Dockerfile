@@ -106,7 +106,9 @@ RUN mkdir -p $HOME/var/data
 # Copy over some additional files.
 ##
 
-COPY runldm.sh $HOME/
+COPY runldm.sh $HOME/bin/
+
+RUN chmod +x $HOME/bin/runldm.sh
 
 COPY README.md $HOME/
 
