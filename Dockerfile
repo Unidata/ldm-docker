@@ -12,7 +12,7 @@ RUN yum update yum
 
 # clean up (optimize now)
 
-RUN yum install -y wget pax gcc libxml2-devel make libpng-dev rsyslog perl \
+RUN yum install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
     zlib-devel bzip2 git curl perl sudo cronie bc net-tools man gnuplot
 
 
