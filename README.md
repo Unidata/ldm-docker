@@ -6,7 +6,7 @@ This repository contains files necessary to build and run a Docker container for
 
 ## Versions
 
-- `unidata/ldm-docker:6.13.5`
+- `unidata/ldm-docker:6.13.6`
 
 ## Configuring the LDM
 ### Run Configuration with `docker-compose`

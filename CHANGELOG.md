@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## 6.13.6 - 2017-02-06
+
+### Changed
+
+- In Dockerfile libpng-dev -> libpng-devel for CentOS
+
 ## 6.13.5 - 2016-11-01
 
 ### Added
@@ -37,7 +43,8 @@ All notable changes to this project will be documented in this file. This change
 - `README` additions
 - `docker-compose.yml` `ldm` container name reference
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.5...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.6...HEAD
+[6.13.6]: https://github.com/Unidata/ldm-docker/compare/v6.13.5...v6.13.6
 [6.13.5]: https://github.com/Unidata/ldm-docker/compare/v6.13.4...v6.13.5
 [6.13.4]: https://github.com/Unidata/ldm-docker/compare/v6.13.3...v6.13.4
 [6.13.3]: https://github.com/Unidata/ldm-docker/compare/v6.13.2...v6.13.3
