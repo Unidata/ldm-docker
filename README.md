@@ -38,11 +38,7 @@ In the `etc` directory, you will have to do the usual LDM configuration by editi
 
 #### crontab
 
-The [recommended LDM crontab entries](http://www.unidata.ucar.edu/software/ldm/ldm-current/basics/configuring.html#cron) have been installed inside the container. You can modify the LDM crontab by editing the `crontab` file. This `crontab` file is mounted outside the container with `docker-compose.yml`. For the new crontab to take effect, you will have to restart the container with
-
-    docker restart <container ID>
-
-Where the container ID is obtained with `docker ps`. See below for more information about running the LDM Docker container.
+The [recommended LDM crontab entries](http://www.unidata.ucar.edu/software/ldm/ldm-current/basics/configuring.html#cron) have been installed inside the container. You can modify the LDM crontab by editing the `cron/ldm` file. This  file can be mounted over `/var/spool/cron/ldm` with `docker-compose.yml`. See the `docker-compose.yml` file herein for an example.
 
 ### Upstream Data Feed from Unidata or Elsewhere
 
