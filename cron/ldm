@@ -13,4 +13,4 @@ MAILTO=""
 0 0 * * 0 bash -l -c 'ldmadmin newmetrics'
 
 # check the LDM
-0,15,30,45 * * * * bash -l -c 'ldmadmin check >/dev/null' 
+0,15,30,45 * * * * bash -l -c 'ldmadmin check >/dev/null'

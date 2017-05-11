@@ -81,7 +81,7 @@ RUN $HOME/install_ldm_root_actions.sh
 # crontab for scouring
 ###
 
-COPY crontab /var/spool/cron/ldm
+COPY cron/ldm /var/spool/cron/ldm
 
 RUN chown ldm:ldm /var/spool/cron/ldm
 
