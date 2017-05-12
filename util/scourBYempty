@@ -1,0 +1,114 @@
+#!/usr/bin/tclsh
+
+#---------------------------------------------------------------------------
+#
+# Name:    Cpp
+#
+# Purpose: Parse command line arguments and return defaults if not specified
+#
+# History: 19970810 - Written for Unidata McIDAS-X GUI
+#
+#---------------------------------------------------------------------------
+
+proc Cpp { num default } {
+
+    global argv
+
+    set value [lindex $argv $num]
+
+    return [expr {($value != "" && $value != "X" && $value != "x") ? $value : $default}]
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    printList
+#
+# Purpose: Print each element of a list
+#
+# History: 20030519 - Written for Unidata-Wisconsin image preparation
+#
+#---------------------------------------------------------------------------
+
+proc printList { listing } {
+
+    foreach line $listing {
+      puts $line
+    }
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    scourByEmpty
+#
+# Purpose: remove empty files from a directory
+#
+# History: 20170108 - Written for Jetstream data scouring
+#
+#---------------------------------------------------------------------------
+
+proc scourByEmpty { dir } {
+
+    global filecount
+    global zerocount
+
+    set cwd [pwd]
+    cd $dir
+    # puts "start directory: $cwd; scour directory: $dir"
+
+    set dlist [glob -nocomplain -types d $dir/*]
+  
+    foreach dir0 $dlist {
+      scourByEmpty $dir0
+    }
+  
+    set flist [glob -nocomplain -types f *]
+    set nfile [llength $flist]
+    set nzero 0
+    foreach fname $flist {
+      if { [file size $fname] == 0 } {
+        catch { eval file delete $fname }
+        incr nzero
+      }
+    }
+
+    # puts "[format "%4d" $nfile] files and [format "%4d" $nzero] zero length files in $dir"
+
+    incr filecount $nfile
+    incr zerocount $nzero
+
+    cd $cwd
+
+    return
+
+}
+
+
+#---------------------------------------------------------------------------
+#
+# Name:    scourBYempty.tcl
+#
+# Purpose: scour all subdirectories under a user-specified top level directory
+#
+# History: 20170108 - Written for Jetstream data scouring
+#
+#---------------------------------------------------------------------------
+
+global filecount
+global zerocount
+
+set topdir [Cpp 0 /data/ldm/pub];  # Top level directory to start searching
+
+# Use proc scourByNumber to do the scouring since it can call itself
+
+scourByEmpty $topdir
+
+# Write out summary stats
+
+puts "Total number of files             = [format "%7d" $filecount]"
+puts "Total number of zero length files = [format "%7d" $zerocount]"
+
+# Done
+
+puts "Done."
