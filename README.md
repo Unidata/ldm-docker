@@ -40,6 +40,30 @@ In the `etc` directory, you will have to do the usual LDM configuration by editi
 
 The [recommended LDM crontab entries](http://www.unidata.ucar.edu/software/ldm/ldm-current/basics/configuring.html#cron) have been installed inside the container. You can modify the LDM crontab by editing the `cron/ldm` file. This  file can be mounted over `/var/spool/cron/ldm` with `docker-compose.yml`. See the `docker-compose.yml` file herein for an example.
 
+#### Additional Scouring
+
+The scouring facilities built-in to the LDM mysteriously do not have the ability to scour empty directories. In this container, therefore, are included additional scouring utility scripts that will scour empty directories as well.
+
+- `scourBYnumber`
+- `scourBYempty `
+- `scourBYday`
+
+Typically, these will be invoked from cron and will correspond to the same directories being scoured in `scour.conf`. For example, if you have a `scour.conf` that has the following entries:
+
+```
+/data/ldm/pub/decoded/gempak/areas/ANTARCTIC	2
+/data/ldm/pub/decoded/gempak/areas/ARCTIC	2
+/data/ldm/pub/decoded/gempak/areas/GEWCOMP	4
+```
+
+you may wish to have corresponding entries in your crontab (e.g., `cron/ldm` file that will be mounted into the container with `docker-compose.yml`) file:
+
+```
+16 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ANTARCTIC 2
+17 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ARCTIC    2
+18 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/GEWCOMP   4
+```
+
 ### Upstream Data Feed from Unidata or Elsewhere
 
 The LDM operates on a push data model. You will have to find an institution who will agree to push you the data you are interested in. If you are part of the academic community please send a support email to `support-idd@unidata.ucar.edu` to discuss your LDM data requirements.

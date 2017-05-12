@@ -1,0 +1,108 @@
+#!/usr/bin/tclsh
+
+#---------------------------------------------------------------------------
+#
+# Name:    Cpp
+#
+# Purpose: Parse command line arguments and return defaults if not specified
+#
+# History: 19970810 - Written for Unidata McIDAS-X GUI
+#
+#---------------------------------------------------------------------------
+
+proc Cpp { num default } {
+
+    global argv
+
+    set value [lindex $argv $num]
+
+    return [expr {($value != "" && $value != "X" && $value != "x") ? $value : $default}]
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    printList
+#
+# Purpose: Print each element of a list
+#
+# History: 20030519 - Written for Unidata-Wisconsin image preparation
+#
+#---------------------------------------------------------------------------
+
+proc printList { listing } {
+
+    foreach line $listing {
+      puts $line
+    }
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    scourByNumber
+#
+# Purpose: remove files from a directory
+#
+# History: 20040203 - Written for CIMH data scouring
+#
+#---------------------------------------------------------------------------
+
+proc scourByNumber { dir keep } {
+
+    if { $keep == 0 } {
+
+      puts [format "removing directory %s..." $dir]
+      catch { file delete -force $dir }
+
+    } else {
+
+      set dlist [glob -nocomplain -types d $dir/*]
+  
+      foreach dir0 $dlist {
+        scourByNumber $dir0 $keep
+      }
+  
+      set cwd [pwd]
+      cd $dir
+      puts "start directory: $cwd; scour directory: $dir"
+
+      set flist [glob -nocomplain -types f *]
+      set nfile [llength $flist]
+      if { $nfile > $keep } {
+        set flist [lsort -decreasing $flist]
+        set flist [lreplace $flist 0 [expr $keep - 1]]
+        puts [format "deleting %3d files in %s..." [llength $flist] $dir]
+        catch { eval file delete $flist }
+      }
+
+      cd $cwd
+      
+    }
+
+    return
+
+}
+
+
+#---------------------------------------------------------------------------
+#
+# Name:    scourBYnumber.tcl
+#
+# Purpose: scour all subdirectories under a user-specified top level directory
+#
+# History: 20040423 - Written for CIMH data scouring
+#
+#---------------------------------------------------------------------------
+
+
+set topdir [Cpp 0 /data/ldm/gempak/nexrad/craft];  # Top level directory to start searching
+set keep   [Cpp 1 48];                             # How many files to keep
+
+# Use proc scourByNumber to do the scouring since it can call itself
+
+scourByNumber $topdir $keep
+
+# Done
+
+puts "Done."

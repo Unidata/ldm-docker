@@ -13,7 +13,7 @@ RUN yum update yum
 # clean up (optimize now)
 
 RUN yum install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
-    zlib-devel bzip2 git curl perl sudo cronie bc net-tools man gnuplot
+    zlib-devel bzip2 git curl perl sudo cronie bc net-tools man gnuplot tcl
 
 
 ###
@@ -86,6 +86,12 @@ COPY cron/ldm /var/spool/cron/ldm
 RUN chown ldm:ldm /var/spool/cron/ldm
 
 RUN chmod 600 /var/spool/cron/ldm
+
+###
+# copy scouring utilities
+###
+
+COPY util $HOME/util
 
 ##
 # Set the path

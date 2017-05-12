@@ -1,0 +1,198 @@
+#!/usr/bin/tclsh
+
+#---------------------------------------------------------------------------
+#
+# Name:    ccyymmdd
+#
+# Purpose: Convert date in form CCYYJJJ to CCYYMMDD
+#
+# History: 20061018 - Written for Unidata McIDAS-X GUI
+#
+#---------------------------------------------------------------------------
+
+proc ccyymmdd { date } {
+
+    set days { 31 28 31 30 31 30 31 31 30 31 30 31 }
+
+    set cymd $date
+
+    set bday  0
+    set eday  0
+    set month 1
+    if { [string length $date] == 7 } {
+      set ccyy [string range $date 0 3]
+      set jday [string trimleft [string range $date 4 end] 0]
+      foreach iday $days {
+        incr eday $iday
+        if { $jday <= $eday } {
+          set day [expr $jday - $bday]
+          set cymd [format "%4d%02d%02d" $ccyy $month $day]
+          break
+        } else {
+          incr bday $iday
+          incr month
+        }
+      }
+    }
+
+    return $cymd
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    Cpp
+#
+# Purpose: Parse command line arguments and return defaults if not specified
+#
+# History: 19970810 - Written for Unidata McIDAS-X GUI
+#
+#---------------------------------------------------------------------------
+
+proc Cpp { num default } {
+
+    global argv
+
+    set value [lindex $argv $num]
+
+    return [expr {($value != "" && $value != "X" && $value != "x") ? $value : $default}]
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    printList
+#
+# Purpose: Print each element of a list
+#
+# History: 20030519 - Written for Unidata-Wisconsin image preparation
+#
+#---------------------------------------------------------------------------
+
+proc printList { listing } {
+
+    foreach line $listing {
+      puts $line
+    }
+
+}
+
+
+#---------------------------------------------------------------------------
+#
+# Name:    scourDirByDay
+#
+# Purpose: delete directories whose names are dates that are
+#          older than 'ndays' before the current date in UTC
+#
+# History: 20090315 - Written for THREDDS/RAMADDA directory scouring
+#
+#---------------------------------------------------------------------------
+
+proc scourDirByDay { directory osec } {
+
+    # Save current directory
+    set curdir [pwd]
+
+    # Does any portion of the directory name matches the form CCYYMMDD
+    set nmatch [regexp {[12][0-9][0-9][0-9][01][0-9][0-3][0-9]} $directory day]
+
+    if { !$nmatch } {         ; # No portion of the name looks like CCYYMMDD
+
+      # Does any portion of the directory name matches the form CCYYJJJ
+      set nmatch [regexp {[12][0-9][0-9][0-9][0-3][0-9][0-9]} $directory day]
+
+      if { $nmatch } {        ; # Part of the name matches CCYYJJJ
+
+        # Regularize CCYYJJJ to CCYYMMDD
+        set day [ccyymmdd $day]
+
+      }
+
+    }
+
+    if { $nmatch } {
+
+      set dsec [clock scan $day -gmt 1]
+      if { $dsec > 0 } {      ; # Sanity check of 'regexp's above
+
+        if { $dsec < $osec } {
+
+          puts -nonewline "  removing directory $directory - "
+          catch { file delete -force $directory }
+          puts "Done"
+
+        }
+
+      }
+      
+    } else {
+
+      # Generate a list of directories to remove
+
+      cd $directory
+      puts "In directory: [pwd] ..."
+      set dlist [glob -nocomplain -types d *]
+      # printList $dlist
+
+      foreach dir $dlist {
+        scourDirByDay $dir $osec
+      }
+
+      cd $curdir
+
+    }
+
+    # All done.
+
+    return
+
+}
+
+#---------------------------------------------------------------------------
+#
+# Name:    scourBYday
+#
+# Purpose: scour all subdirectories under a user-specified top level directory
+#
+# Usage:  scourBYday topdir ndays
+#
+#         topdir - toplevel directory of search tree
+#         ndays  - number of days of data to keep
+#
+# History: 20040423 - Written for CIMH data scouring
+#          20090315 - updated to recursively search subdirectories
+#
+#---------------------------------------------------------------------------
+
+
+# Set initial conditions
+set topdir [Cpp 0 /data/ldm/gempak/nexrad/craft];  # Top level directory to start searching
+set ndays  [Cpp 1 1];                              # How many days to keep
+
+# Sanity checks
+if { ![file exists $topdir] } {
+  puts "$topdir does not exist.  Exiting..."
+  exit 1
+}
+
+if { $ndays <= 0 } {
+  puts "invalid number of days keep: $ndays"
+}
+
+# Tell the user what is to be done
+set time [clock format [clock seconds] -gmt 1 -format "%Y%m%d.%H%M%S"]
+puts "scourBYday - Begin at $time UTC"
+puts "scouring $topdir/... back to $ndays days"
+
+# Get time of oldest day to keep
+set osec [expr [clock seconds] - [expr $ndays * 86400]]
+
+# Scour directory tree under 'topdir' back to 'ndays'
+scourDirByDay $topdir $osec
+
+# Done
+set time [clock format [clock seconds] -gmt 1 -format "%Y%m%d.%H%M%S"]
+puts "scourBYday - Done at $time UTC"
+
+exit
