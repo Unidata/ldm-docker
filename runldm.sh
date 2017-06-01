@@ -9,6 +9,7 @@ export PATH=/home/ldm/bin:$PATH
 trap "echo TRAPed signal" HUP INT QUIT KILL TERM
 
 /usr/sbin/crond
+/usr/sbin/crond reload
 
 ldmadmin clean
 ldmadmin delqueue
