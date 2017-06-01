@@ -119,6 +119,12 @@ RUN chmod +x $HOME/bin/runldm.sh
 COPY README.md $HOME/
 
 ##
+# chown
+##
+
+RUN chown -R ldm:ldm $HOME
+
+##
 # entrypoint
 ##
 
