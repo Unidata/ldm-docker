@@ -169,3 +169,7 @@ docker pull unidata/ldm-docker:<version>
 docker-compose stop
 docker-compose up -d ldm
 ```
+
+## Citation
+
+In order to cite this project, please simply make use of the Unidata LDM DOI: doi:10.5065/D64J0CT0 https://doi.org/10.5065/D64J0CT0
