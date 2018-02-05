@@ -8,7 +8,7 @@ FROM centos:7
 # Update the system. Install stuff.
 ###
 
-RUN yum update yum
+RUN yum -y update yum
 
 # clean up (optimize now)
 
