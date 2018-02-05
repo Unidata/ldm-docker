@@ -18,3 +18,5 @@ ldm:
     nofile:
       soft: 1024
       hard: 1024
+  env_file:
+    - "compose.env"

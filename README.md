@@ -170,6 +170,31 @@ docker-compose stop
 docker-compose up -d ldm
 ```
 
+## Configurable LDM UID and GID
+
+The problem with mounted Docker volumes and UID/DIG mismatch headaches is best explained here: https://denibertovic.com/posts/handling-permissions-with-docker-volumes/.
+
+This container allows the possibility of controlling the UID/GID of the `ldm` user inside the container via `LDM_USER_ID` and `LDM_GROUP_ID` environment variables. If not set, the default UID/GID is `1000`/`1000`. For example,
+
+
+```bash
+docker run --name ldm  \
+     -e LDM_USER_ID=`id -u`  \
+     -e LDM_GROUP_ID=`getent group $USER | cut -d':' -f3`  \
+     -v ./etc/:/home/ldm/etc/ \
+     -v ./data/:/home/ldm/var/data/ \
+     -v ./data/:/home/ldm/var/queues/ \
+     -v ./logs/:/home/ldm/var/logs/ \
+     -v ./cron/:/var/spool/cron/ \
+     -d -p 388:388 unidata/ldm-docker:latest
+```
+
+where `LDM_USER_ID` and `LDM_GROUP_ID` have been configured with the UID/GID of the user running the container. If using `docker-compose`, see `compose.env` to configure the UID/GID of user `ldm` inside the container.
+
+This feature enables greater control of file permissions written outside the container via mounted volumes (e.g., data files written by the LDM).
+
+Note that this UID/GID configuration option will not work on operating systems where Docker is not native (e.g., macOS).
+
 ## Citation
 
 In order to cite this project, please simply make use of the Unidata LDM DOI: doi:10.5065/D64J0CT0 https://doi.org/10.5065/D64J0CT0

@@ -35,16 +35,6 @@ RUN gpg --keyserver pgp.mit.edu --recv-keys \
 	&& rm /tmp/gosu.asc
 
 ###
-# Set up ldm user account
-###
-
-RUN useradd -ms /bin/bash ldm
-
-RUN echo "ldm ALL=NOPASSWD: ALL" >> /etc/sudoers
-
-RUN echo 'ldm:docker' | chpasswd
-
-###
 # LDM version
 ###
 
@@ -53,6 +43,9 @@ ENV LDM_VERSION 6.13.6
 ###
 # LDM HOME
 ###
+
+# User LDM does not exist yet. See entrypoint.sh
+RUN mkdir -p /home/ldm
 
 ENV HOME /home/ldm
 
@@ -82,10 +75,6 @@ RUN $HOME/install_ldm_root_actions.sh
 ###
 
 COPY cron/ldm /var/spool/cron/ldm
-
-RUN chown ldm:ldm /var/spool/cron/ldm
-
-RUN chmod 600 /var/spool/cron/ldm
 
 ###
 # copy scouring utilities
@@ -117,12 +106,6 @@ COPY runldm.sh $HOME/bin/
 RUN chmod +x $HOME/bin/runldm.sh
 
 COPY README.md $HOME/
-
-##
-# chown
-##
-
-RUN chown -R ldm:ldm $HOME
 
 ##
 # entrypoint
