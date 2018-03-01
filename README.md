@@ -198,3 +198,22 @@ Note that this UID/GID configuration option will not work on operating systems w
 ## Citation
 
 In order to cite this project, please simply make use of the Unidata LDM DOI: doi:10.5065/D64J0CT0 https://doi.org/10.5065/D64J0CT0
+## Self-Contained Example
+
+This project comes with a self-contained example. To run it:
+
+1. `docker pull unidata/ldm-docker:latest`
+2. `cd example`
+3. possibly edit `etc/registry.xml` to change hostname currently set at `ldm-example.jetstream-cloud.org`
+4. possibly edit `etc/registry.xml` to change the LDM queue size currently set at `2G`
+5. edit `compose.env` to set `UID` and `GID` of user running container
+6. `docker-compose up -d`
+
+
+Assuming you have permission to request data from `iddb.unidata.ucar.edu` (see `example/etc/ldmd.conf`), after a few moments you should see data. For example:
+
+```
+./example/data/ldm/pub/native/radar/composite/grib2/N0R/20180301/Level3_Composite_N0R_20180301_2010.grib2
+./example/data/ldm/pub/native/radar/composite/grib2/N0R/20180301/Level3_Composite_N0R_20180301_2015.grib2
+./example/data/ldm/pub/native/radar/composite/grib2/N0R/20180301/Level3_Composite_N0R_20180301_2020.grib2
+```
