@@ -1,0 +1,124 @@
+#
+# Contains LDM pqacts for the model output served by the TDS
+#   catalog newPointObs.xml
+#
+# ======================================
+# = RADAR data available via IDD =
+# ======================================
+#
+# ------------------------
+# - TDWR LEVEL III RADAR -
+# ------------------------
+#
+#
+# | Use this action to FILE 45 TDWR sites' Level 3 radar products
+#
+NEXRAD3	^SDUS[23578]. .... ([0-3][0-9])([0-2][0-9])([0-6][0-9]).*/p(...)(ADW|ATL|BNA|BOS|BWI|CLT|CMH|CVG|DAL|DAY|DCA|DEN|DFW|DTW|EWR|FLL|HOU|IAD|IAH|ICH|IDS|JFK|LAS|LVE|MCI|MCO|MDW|MEM|MIA|MKE|MSP|MSY|OKC|ORD|PBI|PHL|PHX|PIT|RDU|SDF|SJU|SLC|STL|TPA|TUL)
+	FILE	-overwrite	-close
+	/data/ldm/pub/native/radar/level3/tdwr/\4/\5/(\1:yyyy)(\1:mm)\1/Level3_\5_\4_(\1:yyyy)(\1:mm)\1_\2\3.nids
+#
+# --------------------------
+# - NEXRAD LEVEL III RADAR -
+# --------------------------
+#
+# NEXRAD Level III Radar 
+#
+# | Use these actions to file all NEXRAD level 3 radar products
+# | NB: actions are split into fourths due to line length limitations for lines
+# |     in pattern-action files
+#
+# | NEXRAD LEVEL III, Part 1
+#
+NEXRAD3	^SDUS[23578]. .... ([0-3][0-9])([0-2][0-9])([0-6][0-9]).*/p(...)(ABC|ABR|ABX|ACG|AEC|AHG|AIH|AKC|AKQ|AMA|AMX|APD|APX|ARX|ATX|BBX|BGM|BHX|BIS|BLX|BMX|BOX|BRO|BUF|BYX|CAE|CBW|CBX|CCX|CLE|CLX|CRP|CXX|CYS|DAX|DDC|DFX|DGX|DIX|DLH|DMX|DOX|DTX|DVN|DYX|EAX)
+	FILE	-overwrite	-close
+	/data/ldm/pub/native/radar/level3/nexrad/\4/\5/(\1:yyyy)(\1:mm)\1/Level3_\5_\4_(\1:yyyy)(\1:mm)\1_\2\3.nids
+#
+# | NEXRAD LEVEL III, Part 2
+#
+NEXRAD3	^SDUS[23578]. .... ([0-3][0-9])([0-2][0-9])([0-6][0-9]).*/p(...)(EMX|ENX|EOX|EPZ|ESX|EVX|EWX|EYX|FCX|FDR|FDX|FFC|FSD|FSX|FTG|FWS|GGW|GJX|GLD|GRB|GRK|GRR|GSP|GUA|GWX|GYX|HDX|HGX|HKI|HKM|HMO|HNX|HPX|HTX|HWA|ICT|ICX|ILN|ILX|IND|INX|IWA|IWX|JAX|JGX|JKL|JUA)
+	FILE	-overwrite	-close
+	/data/ldm/pub/native/radar/level3/nexrad/\4/\5/(\1:yyyy)(\1:mm)\1/Level3_\5_\4_(\1:yyyy)(\1:mm)\1_\2\3.nids
+#
+# | NEXRAD LEVEL III, Part 3
+#
+NEXRAD3	^SDUS[23578]. .... ([0-3][0-9])([0-2][0-9])([0-6][0-9]).*/p(...)(KJK|KSG|LBB|LCH|LGX|LIX|LNX|LOT|LRX|LSX|LTX|LVX|LWX|LZK|MAF|MAX|MBX|MHX|MKX|MLB|MOB|MPX|MQT|MRX|MSX|MTX|MUX|MVX|MXX|NKX|NQA|OAX|ODN|OHX|OKX|OTX|PAH|PBZ|PDT|POE|PUX|RAX|RGX|RIW|RLX|RTX|SFX)
+	FILE	-overwrite	-close
+	/data/ldm/pub/native/radar/level3/nexrad/\4/\5/(\1:yyyy)(\1:mm)\1/Level3_\5_\4_(\1:yyyy)(\1:mm)\1_\2\3.nids
+#
+# | NEXRAD LEVEL III, Part 4
+#
+NEXRAD3	^SDUS[23578]. .... ([0-3][0-9])([0-2][0-9])([0-6][0-9]).*/p(...)(SGF|SHV|SJT|SOX|SRX|TBW|TFX|TLH|TLX|TWX|TYX|UDX|UEX|VAX|VBX|VNX|VTX|VWX|YUX)
+	FILE	-overwrite	-close
+	/data/ldm/pub/native/radar/level3/nexrad/\4/\5/(\1:yyyy)(\1:mm)\1/Level3_\5_\4_(\1:yyyy)(\1:mm)\1_\2\3.nids
+#
+# | All LEVEL III stations not processed by the NEXRAD or TDWR patterns above
+#
+NEXRAD3	^_ELSE_$
+	FILE	-overwrite	-close
+	/data/ldm/pub/native/radar/level3/other/level3_%Y%m%d_%H%M
+#
+# ---------------------------------
+# - NEXRAD Level II Radar WSR-88D -
+# ---------------------------------
+#
+# store first piece ie L2-BZIP2/KFTG/20091021190220/88/1/S/V03/0
+#
+CRAFT	^L2-BZIP2/(....)/([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])([0-2][0-9][0-5][0-9][0-9][0-9])/[0-9]*/1/S
+	FILE	-close	/data/ldm/pub/native/radar/level2/\1/\2/.tmp/Level2_\1_\2_\3.ar2v
+#
+# store internal pieces and end piece
+# ie L2-BZIP2/KFTG/20091021190220/88/2/I/V03/0
+# ie L2-BZIP2/KFTG/20091021190220/88/70/E/V03/0
+#
+CRAFT	^L2-BZIP2/(....)/([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])([0-2][0-9][0-5][0-9][0-9][0-9])/[0-9]*/([0-9]*)/(I|E)
+	FILE	-close	/data/ldm/pub/native/radar/level2/\1/\2/.tmp/\1_\2_\3
+#
+# execute script hhmmssRadarII.pl
+#  -put good products in live directory
+#  -put missing 1st piece products in badLevel2/piece1missing
+#  -put maintenance products in badLevel2/maintenance
+#
+CRAFT	^L2-BZIP2/(....)/([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])([0-2][0-9][0-5][0-9][0-9][0-9])/[0-9]*/([0-9]*)/E
+	EXEC	perl etc/TDS/util/hhmmssRadarII.pl \1 \2 \3 \4
+#
+# File Model Data Message packets separately, since they are on a different
+# time schedule
+#
+CRAFT	^L2-BZIP2/(....)/([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])([0-2][0-9][0-5][0-9][0-9][0-9])/[0-9]*/([0-9]*)/M
+	FILE	-close	/data/ldm/pub/native/radar/level2_model/\1/\2/Level2MDM_\1_\2_\3.ar2v
+#
+# ==============================================
+# = Unidata RADAR composites available via IDD =
+# ==============================================
+#
+# --------------------------------------
+# - Unidata Generated RADAR Composites -
+# --------------------------------------
+#
+# NEXRAD Level III radar composites in GINI format (png compressed)
+#
+FNEXRAD	^rad/NEXRCOMP/(...)/(...)_(........)_(....)
+	PIPE	-close
+	sh etc/TDS/util/ldmfile.sh /data/ldm/pub/native/radar/composite/gini/\2/\1/\3/Level3_Composite_\2_\1_\3_\4.gini
+#
+# UPC generated NEXRAD Level III radar composites in GRIB format
+#
+# | radar_mosaic_national !grib/unidata/UPC_1/#255/200705182038/F000/N0R/sfc! 000000
+#
+FNEXRAD	grib/unidata/UPC_1/#255/(........)(....)/F.../(...)
+	FILE	-metadata
+	/data/ldm/pub/native/radar/composite/grib1/\3/\1/Level3_Composite_\3_\1_\2.grib1
+#
+# UPC Generated NEXRAD ???
+#
+# | radar_mosaic_national !grib2/unidata/UPC_255/#000/200705182038F000/N0R/
+#
+FNEXRAD	grib2/unidata/UPC_255/#000/(........)(....)F.../(...)
+	FILE	-metadata
+	/data/ldm/pub/native/radar/composite/grib2/\3/\1/Level3_Composite_\3_\1_\2.grib2
+#
+# UPC generated VIP 10 km composite
+#
+HRS	^HAXA00 K... ([0-3][0-9])([0-2][0-9])([0-9][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/radar/10km_mosaic/(\1:yyyy)(\1:mm)\1/RADAR_10km_mosaic_(\1:yyyy)(\1:mm)\1_\2\3.grib1

@@ -1,0 +1,427 @@
+#
+# Contains LDM pqacts for the model output served by the TDS
+#   catalog forecastModels.xml
+#
+# ===============================
+# = NCEP data available via IDD =
+# ===============================
+#
+# ------------------------------------------
+# - Global Ensemble Forecast System (GEFS) -
+# ------------------------------------------
+#
+# http://www.nco.ncep.noaa.gov/pmb/products/gens/
+#
+# GEFS 1.0 degree Ensemble Members
+#
+CONDUIT	^data/nccf/com/gens/prod/gefs\.(........)/(..)/pgrb2a/ge[cp].*pgrb2af
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GEFS/Global_1p0deg_Ensemble/member/GEFS_Global_1p0deg_Ensemble_\1_\200.grib2
+#
+# GEFS 1.0 degree Ensemble Members Analysis
+#
+CONDUIT	^data/nccf/com/gens/prod/gefs\.(........)/(..)/pgrb2a/ge[cp].*pgrb2aanl
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GEFS/Global_1p0deg_Ensemble/member_analysis/GEFS_Global_1p0deg_Ensemble_ana_\1_\200.grib2
+#
+# GEFS 1.0 degree Ensemble Statistics (Average and Spread)
+#
+CONDUIT	^data/nccf/com/gens/prod/gefs\.(........)/(..)/pgrb2a/ge(avg|spr)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GEFS/Global_1p0deg_Ensemble/derived/GEFS_Global_1p0deg_Ensemble_derived_\1_\200.grib2
+#
+# --------------------------------
+# - Global Forecast System (GFS) -
+# --------------------------------
+#
+# GFS Global 0.25 degree analysis only
+#
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p25\.a
+	FILE
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p25deg_ana/GFS_Global_0p25deg_ana_\1_\200.grib2
+#
+# GFS Global 0.25 degree forecast only
+#
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p25\.f
+	FILE
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p25deg/GFS_Global_0p25deg_\1_\200.grib2
+#
+# http://www.nco.ncep.noaa.gov/pmb/products/gfs/
+#
+# GFS Global 0.5 Degree
+#
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p50\.f
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p5deg/GFS_Global_0p5deg_\1_\200.grib2
+#
+# GFS Global 0.5 Degree Analysis
+#
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p50\.a
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p5deg_ana/GFS_Global_0p5deg_ana_\1_\200.grib2
+#
+# GFS Global 1.0 Degree
+#
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.1p00\.f
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_onedeg/GFS_Global_onedeg_\1_\200.grib2
+#
+# GFS Global 1.0 Degree Analysis
+#
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.1p00\.a
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_onedeg_ana/GFS_Global_onedeg_ana_\1_\200.grib2
+#
+# GFS Global 1.0 Degree (NOAAPORT)
+#
+NGRID	^[YZ].P... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Global_onedeg_noaaport/GFS_Global_onedeg_noaaport_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS Pacific 40 km
+#
+NGRID	^[LM].O... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Pacific_40km/GFS_Pacific_40km_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS Pacific 20 km
+#
+NGRID	^[YZ].E... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Pacific_20km/GFS_Pacific_20km_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS Puerto Rico 0.5 degree
+#
+NGRID	^[LM].T... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Puerto_Rico_0p5deg/GFS_Puerto_Rico_0p5deg_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS Puerto Rico 0.25 degree
+#
+NGRID	^[YZ].F... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Puerto_Rico_0p25deg/GFS_Puerto_Rico_0p25deg_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS CONUS 80 km
+#
+HRS	^[YZ].Q... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/CONUS_80km/GFS_CONUS_80km_(\1:yyyy)(\1:mm)\1_\2.grib1
+#
+# GFS CONUS 20 km
+#
+NGRID	^[YZ].N... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/CONUS_20km/GFS_CONUS_20km_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS Alaska 95 km (was misnamed)
+#
+NGRID	^[LM].H... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/CONUS_95km/GFS_CONUS_95km_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# GFS Alaska 20 km
+#
+NGRID	^[YZ].B... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/GFS/Alaska_20km/GFS_Alaska_20km_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# --------------------------------------------------
+# - North American Mesoscale Forecast System (NAM) -
+# --------------------------------------------------
+#
+# NAM Alaska 11 km
+#
+NGRID	^[LM].S... KWBE ([0-3][0-9])([0-2][0-9]).*NAM_84/#242
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/Alaska_11km/NAM_Alaska_11km_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# NAM Alaska 45 km (FROM NOAAPORT)
+#
+HRS	^[YZ].(V)... KWB. ([0-3][0-9])([0-2][0-9]).*/m(ETA|NAM)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/Alaska_45km/noaaport/NAM_Alaska_45km_noaaport_(\2:yyyy)(\2:mm)\2_\300.grib1
+#
+# NAM Alaska 45 km (FROM CONDUIT)
+#
+CONDUIT	^data/nccf/com/nam/prod/nam.(........)/nam.t(..)z.awipak.*grib2
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/Alaska_45km/conduit/NAM_Alaska_45km_conduit_\1_\200.grib2
+#
+# NAM Alaska 95 km
+#
+HRS	^[YZ].(N)... KWB. ([0-3][0-9])([0-2][0-9]).*/m(ETA|NAM)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/Alaska_95km/NAM_Alaska_95km_(\2:yyyy)(\2:mm)\2_\300.grib1
+#
+# NAM CONUS 12 km (FROM NOAAPORT)
+#
+NGRID	^[LM].B... KWBE ([0-3][0-9])([0-2][0-9]).*NAM_84/#218
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/CONUS_12km/NAM_CONUS_12km_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# NAM CONUS 12 km (FROM CONDUIT)
+#
+CONDUIT	^data/nccf/com/nam/prod/nam.(........)/nam.t(..)z.awip12.*grib2
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/CONUS_12km_conduit/NAM_CONUS_12km_conduit_\1_\200.grib2
+#
+# NAM CONUS 20 km (FROM NOAAPORT)
+#
+HRS	^[YZ].(U)... KWB. ([0-3][0-9])([0-2][0-9]).*/m(ETA|NAM)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/CONUS_20km/noaaport/NAM_CONUS_20km_noaaport_(\2:yyyy)(\2:mm)\2_\300.grib1
+#
+# NAM CONUS 40 km (FROM CONDUIT)
+#
+CONDUIT	^data/nccf/com/nam/prod/nam.(........)/nam.t(..)z.awip3d..\.tm00\.grib2
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/CONUS_40km/conduit/NAM_CONUS_40km_conduit_\1_\200.grib2
+#
+# NAM CONUS 80 km
+#
+HRS	^[YZ].(Q)... KWB. ([0-3][0-9])([0-2][0-9]).*/m(ETA|NAM)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/CONUS_80km/NAM_CONUS_80km_(\2:yyyy)(\2:mm)\2_\300.grib1
+#
+# NAM Polar 90 km
+#
+CONDUIT	^data/nccf/com/nam/prod/nam.(........)/nam.t(..)z.grbgrd.*grib2
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/Polar_90km/NAM_Polar_90km_\1_\200.grib2
+#
+# NAM Fire Weather Nest
+#
+CONDUIT	^data/nccf/com/nam/prod/nam\.(........)/nam.t(..)z\.firewxnest
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/NAM/Firewxnest/NAM_Firewxnest_\1_\200.grib2
+#
+# -----------------------
+# - Rapid Refresh (RAP) -
+# -----------------------
+#
+# RAP CONUS 13 km
+#
+NGRID	^[LM].D... KWBG ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/RR/CONUS_13km/RR_CONUS_13km_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# RAP CONUS 20 km
+#
+CONDUIT	^data/nccf/com/rap/prod/rap.(........)/rap.t(..)z.awp252pgrb
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/RR/CONUS_20km/RR_CONUS_20km_\1_\200.grib2
+#
+# RAP CONUS 40 km
+#
+CONDUIT	^data/nccf/com/rap/prod/rap.(........)/rap.t(..)z.awp236pgrb
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/RR/CONUS_40km/RR_CONUS_40km_\1_\200.grib2
+# =====================================
+# = HRRR model data available via IDD =
+# =====================================
+#
+# ---------------------------------------------
+# - NCEP High Resolution Rapid Refresh (HRRR) -
+# ---------------------------------------------
+#
+# High Resolution Radid Refresh (HRRR) grid output from NCEP
+# Based on http://www.nws.noaa.gov/os/notification/tin14-28hrrr-aac.htm
+#
+# Forecast Grids
+#
+NGRID	^Y.C.* KWBY (..)(..).*F([0-9][0-9][0-9])
+	FILE
+	/data/ldm/pub/native/grid/NCEP/HRRR/CONUS_2p5km/HRRR_CONUS_2p5km_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+#  http://www.nco.ncep.noaa.gov/pmb/docs/on388/appendixa.html
+#
+# Analysis Grids
+# 
+NGRID	^Y.CA.* KWBY (..)(..)
+	FILE
+	/data/ldm/pub/native/grid/NCEP/HRRR/CONUS_2p5km_Analysis/HRRR_CONUS_2p5km_ana_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# ------------------------------------------------
+# - Short Range Ensemble Forecasts System (SREF) -
+# ------------------------------------------------
+#
+# SREF CONUS 40 km Ensemble Derived Products
+#
+NGRID	^[LM].R... KWBL ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/SREF/CONUS_40km/ensprod/SREF_CONUS_40km_ensprod_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# SREF CONUS 40 km Bias Corrected Ensemble Derived Products
+#
+CONDUIT	^data/nccf/com/sref/prod/sref\.(........)/(..)/(ensprod_biasc)/.*pgrb212
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/SREF/CONUS_40km/\3/SREF_CONUS_40km_\3_\1_\200.grib2
+#
+# SREF CONUS 40 km Bias Corrected Ensemble Members
+#
+#CONDUIT	^data/nccf/com/sref/prod/sref\.(........)/(..)/(pgrb_biasc)/sref_.*\.pgrb212\.*
+#	FILE	-metadata
+#	/data/ldm/pub/native/grid/NCEP/SREF/CONUS_40km/\3/SREF_CONUS_40km_\3_\1_\200.grib2
+#
+# SREF Alaska 45 km Ensemble Derived Products
+#
+NGRID	^[LM].V... KWBL ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/SREF/Alaska_45km/ensprod/SREF_Alaska_45km_ensprod_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# SREF Pacific Northeast 0.4 degree Ensemble Derived Products
+#
+NGRID	^[LM].X... KWBL ([0-3][0-9])([0-2][0-9][0-6][0-9])
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/SREF/PacificNE_0p4/ensprod/SREF_PacificNE_0p4_ensprod_(\1:yyyy)(\1:mm)\1_\2.grib2
+#
+# -----------------------
+# - WAVEWATCH III (WW3) -
+# -----------------------
+#
+# WW3 Global
+#
+NGRID	E.A.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Global/WW3_Global_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 Regional Alaska
+#
+NGRID	E.E.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Regional_Alaska/WW3_Regional_Alaska_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 Coastal Alaska
+#
+NGRID	E.F.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Coastal_Alaska/WW3_Coastal_Alaska_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 Eastern Pacific (Regional)
+#
+NGRID	E.D.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Regional_Eastern_Pacific/WW3_Regional_Eastern_Pacific_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 US East Coast (Regional)
+#
+NGRID	E.B.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Regional_US_East_Coast/WW3_Regional_US_East_Coast_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 US East Coast (Coastal)
+#
+NGRID	E.H.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Coastal_US_East_Coast/WW3_Coastal_US_East_Coast_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 US West Coast (Regional)
+#
+NGRID	E.C.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Regional_US_West_Coast/WW3_Regional_US_West_Coast_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# WW3 US West Coast (Coastal)
+#
+NGRID	E.G.88 KWBJ (..)(..)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NCEP/WW3/Coastal_US_West_Coast/WW3_Coastal_US_West_Coast_(\1:yyyy)(\1:mm)\1_\200.grib2
+#
+# ================================
+# = FNMOC data available via IDD =
+# ================================
+#
+# ------------------------------------------------
+# - Navy Coupled Ocean Data Assimilation (NCODA) -
+# ------------------------------------------------
+#
+# NCODA Global 0.25 degree
+#
+FNMOC	(^US058.{4}-GR1mdl\.0078_0200_.{5}.{4})(.{4})(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/NCODA/Global_Ocean/FNMOC_NCODA_Global_Ocean_\2\3\4_\500.grib1
+#
+# --------------------------------------------
+# - NAVy Global Environmental Model (NAVGEM) -
+# --------------------------------------------
+#
+# NAVGEM Global 0.5 degree
+#
+FNMOC	(^US058.{4}-GR1mdl\.0018_0056_.{5}.{4})(.{4})(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/NAVGEM/Global_0p5deg/FNMOC_NAVGEM_Global_0p5deg_\2\3\4_\500.grib1
+#
+# ------------------------------------------------------------
+# - Forecast of Aerosol Radiative Optical Properties (FAROP) -
+# ------------------------------------------------------------
+#
+# FAROP Global 1.0 degree
+#
+FNMOC	(^US058.{4}-GR1mdl\.0135_0240_.{5}.{4})(.{4})(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/FAROP/Global_1p0deg/FNMOC_FAROP_Global_1p0deg_\2\3\4_\500.grib1
+#
+# -----------------------
+# - WAVEWATCH III (WW3) -
+# -----------------------
+#
+# WW3 Global 1.0 degree
+#
+FNMOC	(^US058.{4}-GR1mdl\.0110_0240_.{5}.{4})(.{4})(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/WW3/Global_1p0deg/FNMOC_WW3_Global_1p0deg_\2\3\4_\500.grib1
+#
+# WW3 Europe
+#
+FNMOC	(^US058.{4}-GR1dyn\.WW3-EURO_EURO-..-.._.{5}.{4})(.{4})(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/WW3/Europe/FNMOC_WW3_Europe_\2\3\4_\500.grib1
+#
+# ------------------------------------------------------------------
+# - Coupled Ocean/Atmospheric Mesoscale Prediction System (COAMPS) -
+# ------------------------------------------------------------------
+#
+# COAMPS Western Atlantic
+#
+FNMOC	^US058.{4}-GR1dyn\.COAMPS-NWATL_.{5}-.{2}-.{2}_.{9}(....)(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/COAMPS/Western_Atlantic/FNMOC_COAMPS_Western_Atlantic_\1\2\3_\400.grib1
+#
+# COAMPS Europe
+#
+FNMOC	^US058.{4}-GR1dyn\.COAMPS-EURO_.{4}-.{2}-.{2}_.{9}(....)(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/COAMPS/Europe/FNMOC_COAMPS_Europe_\1\2\3_\400.grib1
+#
+# COAMPS Equatorial America
+#
+FNMOC	^US058.{4}-GR1dyn\.COAMPS-EQAM_.{4}-.{2}-.{2}_.{9}(....)(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/COAMPS/Equatorial_America/FNMOC_COAMPS_Equatorial_America_\1\2\3_\400.grib1
+#
+# COAMPS Northeast Pacific
+#
+FNMOC	^US058.{4}-GR1dyn\.COAMPS-NEPAC_.{5}-.{2}-.{2}_.{9}(....)(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/COAMPS/Northeast_Pacific/FNMOC_COAMPS_Northeast_Pacific_\1\2\3_\400.grib1
+#
+# COAMPS Southern California
+#
+FNMOC	^US058.{4}-GR1dyn\.COAMPS-SOCAL_.{5}-.{2}-.{2}_.{9}(....)(..)(..)(..)(.*)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/FNMOC/COAMPS/Southern_California/FNMOC_COAMPS_Southern_California_\1\2\3_\400.grib1
+#
+# ======================================
+# = Other model data available via IDD =
+# ======================================
+#
+# ---------------------------------------------------
+# - National Precipitation Verification Unit (NPVU) -
+# ---------------------------------------------------
+#
+# River Forecast Centers
+#
+HRS	ZETA98 (....) ([0-3][0-9])([0-2][0-9]).*/m(.......)
+	FILE	-metadata
+	/data/ldm/pub/native/grid/NPVU/RFC/\1/NPVU_RFC_\1_\4_(\2:yyyy)(\2:mm)\2.grib1

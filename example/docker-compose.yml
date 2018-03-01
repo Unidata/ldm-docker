@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  ###
+  # LDM
+  ###
+  ldm:
+    image: unidata/ldm-docker:latest
+    container_name: ldm
+    # restart: always
+    volumes:
+      - ./etc/:/home/ldm/etc/
+      - ./data/:/home/ldm/var/data/
+      - ./queues:/home/ldm/var/queues/
+      - ./logs/:/home/ldm/var/logs/
+      - ./cron/:/var/spool/cron/
+      - ./data/:/data/
+    ports:
+      - "388:388"
+    ulimits:
+      nofile:
+        soft: 64
+        hard: 64
+    env_file:
+      - "compose.env"
