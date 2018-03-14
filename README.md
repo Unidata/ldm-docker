@@ -217,3 +217,9 @@ Assuming you have permission to request data from `iddb.unidata.ucar.edu` (see `
 ./example/data/ldm/pub/native/radar/composite/grib2/N0R/20180301/Level3_Composite_N0R_20180301_2015.grib2
 ./example/data/ldm/pub/native/radar/composite/grib2/N0R/20180301/Level3_Composite_N0R_20180301_2020.grib2
 ```
+
+## Support
+
+If you have a question or would like support for this LDM Docker container, consider [submitting a GitHub issue](https://github.com/Unidata/ldm-docker/issues). Alternatively, you may wish to start a discussion on the LDM Community mailing list: <ldm-users@unidata.ucar.edu>.
+
+For general LDM questions, please see the [Unidata LDM page](https://www.unidata.ucar.edu/software/ldm/).
