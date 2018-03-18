@@ -118,6 +118,13 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 ##
+# .profile
+##
+
+COPY .profile $HOME
+
+
+##
 # Execute script.
 ##
 
