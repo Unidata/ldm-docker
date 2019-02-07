@@ -13,8 +13,8 @@ RUN yum -y update yum
 # clean up (optimize now)
 
 RUN yum install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
-    zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl
-
+    zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl \
+    libstdc++-static
 
 ###
 # gosu is a non-optimal way to deal with the mismatches between Unix user and
@@ -22,23 +22,31 @@ RUN yum install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
 # headaches when writing to directory outside the container.
 ###
 
-ENV GOSU_VERSION 1.10
+ENV GOSU_VERSION 1.11
 
 ENV GOSU_URL https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64
 
-RUN gpg --keyserver pgp.mit.edu --recv-keys \
-	B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-	&& curl -sSL $GOSU_URL -o /bin/gosu \
-	&& chmod +x /bin/gosu \
-	&& curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc \
-	&& gpg --verify /tmp/gosu.asc /bin/gosu \
-	&& rm /tmp/gosu.asc
+RUN curl -sSL $GOSU_URL -o /bin/gosu; \
+	curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc; \
+        export GNUPGHOME="$(mktemp -d)"; \
+        export KEY=B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+        for server in $(shuf -e ha.pool.sks-keyservers.net \
+                                hkp://p80.pool.sks-keyservers.net:80 \
+                                keyserver.ubuntu.com \
+                                hkp://keyserver.ubuntu.com:80 \
+                                keyserver.pgp.com \
+                                pgp.mit.edu) ; do \
+            gpg --batch --keyserver "$server" --recv-keys $KEY && break || : ; \
+        done; \
+        gpg --batch --verify /tmp/gosu.asc /bin/gosu; \
+        rm -rf "$GNUPGHOME" /tmp/gosu.asc; \
+        chmod +x /bin/gosu
 
 ###
 # LDM version
 ###
 
-ENV LDM_VERSION 6.13.6
+ENV LDM_VERSION 6.13.7
 
 ###
 # LDM HOME
