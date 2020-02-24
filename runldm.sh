@@ -10,29 +10,32 @@ trap "echo TRAPed signal" HUP INT QUIT KILL TERM
 
 /usr/sbin/crond
 
-#ldmadmin clean
-#ldmadmin delqueue
-#ldmadmin mkqueue
-#ldmadmin start
-
 regutil -s docker.localhost.local /hostname
 
-if [ ! -f /home/ldm/var/queues/ldm.pq ] ; then
+if [ ! -f /home/ldm/var/queues/ldm.pq ]
+then
     echo "The product queue file home/ldm/var/queues/ldm.pq does not exist. Making new queue."
     ldmadmin mkqueue
 else
     # queue exists, test queue "sanity"
     echo "Checking existing product queue with 'pqcat'"
     pqcat -l- -s && pqcheck -F
-    if test $? != 0
+    if [ $? -eq 0 ]
     then
+        echo "Using existing LDM product queue."
+    else
         echo "Product queue appears corrupt. Deleting and rebuilding."
         ldmadmin delqueue
         ldmadmin mkqueue
-    else
-        echo "Using existing LDM product queue."
     fi
 fi
+
+# In case of unclean shutdown, remove pid and lck files
+echo "Running 'ldmadmin clean'."
+ldmadmin clean
+echo "Starting LDM..."
+ldmadmin start
+echo "LDM is running."
 
 # never exit
 while true; do sleep 10000; done
