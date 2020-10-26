@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# set umask:
+umask 0002
+
 if [ "$1" = 'runldm.sh' ]; then
 
     USER_ID=${LDM_USER_ID:-1000}
@@ -21,6 +24,9 @@ if [ "$1" = 'runldm.sh' ]; then
             chown ldm:ldm "$j"
         fi
     done
+
+    # add group rwx permissions to product queue dir
+    chmod -R 775 /var/queues
 
     # chown everything in ${HOME} except var/data which will take too long
     cd ${HOME} && chown -R ldm:ldm $(ls -A | awk '{if($1 != "var"){ print $1 }}')
