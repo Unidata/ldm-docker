@@ -1,15 +1,26 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [6.13.13] - 2020-11-13
+
+### Added
+- license
+
+### Changed
+- bumping version to `6.13.13` (`6.13.12` had problems and therefore never released)
+- download ldm via https instead of ftp
+- changed umask to `0002` in `entrypoint.sh`, [PR 77](https://github.com/Unidata/ldm-docker/pull/77)
+- Expanded group permissions for queue directory and `ldm.pq`, [PR 77](https://github.com/Unidata/ldm-docker/pull/77)
+
 ## [6.13.11] - 2019-05-15
 
 ### Changed
-- bumping version to 6.13.11
+- bumping version to `6.13.11`
 
 ## [6.13.10] - 2019-04-24
 
 ### Changed
-- bumping version to 6.13.10 (6.13.8 and 6.13.9 were ephemeral and never captured).
+- bumping version to `6.13.10` (`6.13.8` and `6.13.9` were ephemeral and never captured).
 
 ## [6.13.7] - 2019-02-08
 
@@ -72,7 +83,8 @@ All notable changes to this project will be documented in this file. This change
 - `README` additions
 - `docker-compose.yml` `ldm` container name reference
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.11...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.13...HEAD
+[6.13.13]: https://github.com/Unidata/ldm-docker/compare/v6.13.11...v6.13.13
 [6.13.11]: https://github.com/Unidata/ldm-docker/compare/v6.13.10...v6.13.11
 [6.13.10]: https://github.com/Unidata/ldm-docker/compare/v6.13.7...v6.13.10
 [6.13.7]: https://github.com/Unidata/ldm-docker/compare/v6.13.6...v6.13.7
