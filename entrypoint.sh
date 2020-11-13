@@ -26,7 +26,10 @@ if [ "$1" = 'runldm.sh' ]; then
     done
 
     # add group permissions to product queue
-    chmod 775 /home/ldm/var/queues && chmod 664 /home/ldm/var/queues/ldm.pq
+    chmod 775 /home/ldm/var/queues
+    if [ -f /home/ldm/var/queues/ldm.pq ]; then
+        chmod 664 /home/ldm/var/queues/ldm.pq
+    fi
 
     # chown everything in ${HOME} except var/data which will take too long
     cd ${HOME} && chown -R ldm:ldm $(ls -A | awk '{if($1 != "var"){ print $1 }}')
