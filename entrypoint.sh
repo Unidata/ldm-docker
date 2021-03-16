@@ -36,7 +36,8 @@ if [ "$1" = 'runldm.sh' ]; then
     cd ${HOME} && chown -R ${USERNAME}:${USERNAME} $(ls -A | awk '{if($1 != "var"){ print $1 }}')
 
     # deal with cron for user ldm
-    if [ -f /var/spool/cron/${USERNAME} ]; then
+    if [ -f /var/spool/cron/ldm ]; then
+        mv /var/spool/cron/ldm /var/spool/cron/${USERNAME}
         chown ${USERNAME}:${USERNAME} /var/spool/cron/${USERNAME} && chmod 600 /var/spool/cron/${USERNAME}
     fi
 
