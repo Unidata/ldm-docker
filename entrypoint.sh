@@ -6,14 +6,15 @@ umask 0002
 
 if [ "$1" = 'runldm.sh' ]; then
 
+    USERNAME=${LDM_USERNAME:-ldm}
     USER_ID=${LDM_USER_ID:-1000}
     GROUP_ID=${LDM_GROUP_ID:-1000}
 
     ###
     # LDM user
     ###
-    groupadd -r ldm -g ${GROUP_ID} && \
-    useradd -u ${USER_ID} -g ldm -ms /bin/bash -c "LDM user" ldm
+    groupadd -r ${USERNAME} -g ${GROUP_ID} && \
+    useradd -u ${USER_ID} -g ${USERNAME} -ms /bin/bash -c "LDM user" ${USERNAME}
 
     # All of this is to avoid chowning -R var/data which will take too long if
     # there is a lot of data
@@ -21,7 +22,7 @@ if [ "$1" = 'runldm.sh' ]; then
     do
         j=${HOME}$i
         if [ -d "$j" ]; then
-            chown ldm:ldm "$j"
+            chown ${USERNAME}:${USERNAME} "$j"
         fi
     done
 
@@ -32,11 +33,11 @@ if [ "$1" = 'runldm.sh' ]; then
     fi
 
     # chown everything in ${HOME} except var/data which will take too long
-    cd ${HOME} && chown -R ldm:ldm $(ls -A | awk '{if($1 != "var"){ print $1 }}')
+    cd ${HOME} && chown -R ${USERNAME}:${USERNAME} $(ls -A | awk '{if($1 != "var"){ print $1 }}')
 
     # deal with cron for user ldm
-    if [ -f /var/spool/cron/ldm ]; then
-        chown ldm:ldm /var/spool/cron/ldm && chmod 600 /var/spool/cron/ldm
+    if [ -f /var/spool/cron/${USERNAME} ]; then
+        chown ${USERNAME}:${USERNAME} /var/spool/cron/${USERNAME} && chmod 600 /var/spool/cron/${USERNAME}
     fi
 
     chown root ${HOME}/bin/hupsyslog ${HOME}/bin/ldmd
@@ -45,7 +46,7 @@ if [ "$1" = 'runldm.sh' ]; then
 
     sync
 
-    exec gosu ldm "$@"
+    exec gosu ${USERNAME} "$@"
 fi
 
 exec "$@"
