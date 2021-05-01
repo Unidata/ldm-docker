@@ -46,7 +46,7 @@ RUN curl -sSL $GOSU_URL -o /bin/gosu; \
 # LDM version
 ###
 
-ENV LDM_VERSION 6.13.13
+ENV LDM_VERSION 6.13.14.28
 
 ###
 # LDM HOME
