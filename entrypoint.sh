@@ -37,7 +37,9 @@ if [ "$1" = 'runldm.sh' ]; then
 
     # deal with cron for user ldm
     if [ -f /var/spool/cron/ldm ]; then
-        mv /var/spool/cron/ldm /var/spool/cron/${USERNAME}
+        if ! [[ "ldm" == "${USERNAME}" ]]; then
+            mv /var/spool/cron/ldm /var/spool/cron/${USERNAME}
+        fi
         chown ${USERNAME}:${USERNAME} /var/spool/cron/${USERNAME} && chmod 600 /var/spool/cron/${USERNAME}
     fi
 
