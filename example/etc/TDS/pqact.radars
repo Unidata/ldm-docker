@@ -116,9 +116,3 @@ FNEXRAD	grib/unidata/UPC_1/#255/(........)(....)/F.../(...)
 FNEXRAD	grib2/unidata/UPC_255/#000/(........)(....)F.../(...)
 	FILE	-metadata
 	/data/ldm/pub/native/radar/composite/grib2/\3/\1/Level3_Composite_\3_\1_\2.grib2
-#
-# UPC generated VIP 10 km composite
-#
-HRS	^HAXA00 K... ([0-3][0-9])([0-2][0-9])([0-9][0-9])
-	FILE	-metadata
-	/data/ldm/pub/native/radar/10km_mosaic/(\1:yyyy)(\1:mm)\1/RADAR_10km_mosaic_(\1:yyyy)(\1:mm)\1_\2\3.grib1
