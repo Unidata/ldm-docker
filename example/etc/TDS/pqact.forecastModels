@@ -36,13 +36,13 @@ CONDUIT	^data/nccf/com/gens/prod/gefs\.(........)/(..)/pgrb2a/ge(avg|spr)
 #
 # GFS Global 0.25 degree analysis only
 #
-CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p25\.a
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)/(..).*pgrb2\.0p25\.a
 	FILE
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p25deg_ana/GFS_Global_0p25deg_ana_\1_\200.grib2
 #
 # GFS Global 0.25 degree forecast only
 #
-CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p25\.f
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)/(..).*pgrb2\.0p25\.f
 	FILE
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p25deg/GFS_Global_0p25deg_\1_\200.grib2
 #
@@ -50,25 +50,25 @@ CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p25\.f
 #
 # GFS Global 0.5 Degree
 #
-CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p50\.f
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)/(..).*pgrb2\.0p50\.f
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p5deg/GFS_Global_0p5deg_\1_\200.grib2
 #
 # GFS Global 0.5 Degree Analysis
 #
-CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.0p50\.a
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)/(..).*pgrb2\.0p50\.a
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_0p5deg_ana/GFS_Global_0p5deg_ana_\1_\200.grib2
 #
 # GFS Global 1.0 Degree
 #
-CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.1p00\.f
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)/(..).*pgrb2\.1p00\.f
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_onedeg/GFS_Global_onedeg_\1_\200.grib2
 #
 # GFS Global 1.0 Degree Analysis
 #
-CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)(..).*pgrb2\.1p00\.a
+CONDUIT	^data/nccf/com/gfs/prod/gfs\.(........)/(..).*pgrb2\.1p00\.a
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_onedeg_ana/GFS_Global_onedeg_ana_\1_\200.grib2
 #
@@ -78,23 +78,11 @@ NGRID	^[YZ].P... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/Global_onedeg_noaaport/GFS_Global_onedeg_noaaport_(\1:yyyy)(\1:mm)\1_\2.grib2
 #
-# GFS Pacific 40 km
-#
-NGRID	^[LM].O... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
-	FILE	-metadata
-	/data/ldm/pub/native/grid/NCEP/GFS/Pacific_40km/GFS_Pacific_40km_(\1:yyyy)(\1:mm)\1_\2.grib2
-#
 # GFS Pacific 20 km
 #
 NGRID	^[YZ].E... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/Pacific_20km/GFS_Pacific_20km_(\1:yyyy)(\1:mm)\1_\2.grib2
-#
-# GFS Puerto Rico 0.5 degree
-#
-NGRID	^[LM].T... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
-	FILE	-metadata
-	/data/ldm/pub/native/grid/NCEP/GFS/Puerto_Rico_0p5deg/GFS_Puerto_Rico_0p5deg_(\1:yyyy)(\1:mm)\1_\2.grib2
 #
 # GFS Puerto Rico 0.25 degree
 #
@@ -113,12 +101,6 @@ HRS	^[YZ].Q... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
 NGRID	^[YZ].N... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
 	FILE	-metadata
 	/data/ldm/pub/native/grid/NCEP/GFS/CONUS_20km/GFS_CONUS_20km_(\1:yyyy)(\1:mm)\1_\2.grib2
-#
-# GFS Alaska 95 km (was misnamed)
-#
-NGRID	^[LM].H... KWBC ([0-3][0-9])([0-2][0-9][0-6][0-9])
-	FILE	-metadata
-	/data/ldm/pub/native/grid/NCEP/GFS/CONUS_95km/GFS_CONUS_95km_(\1:yyyy)(\1:mm)\1_\2.grib2
 #
 # GFS Alaska 20 km
 #
