@@ -1,7 +1,5 @@
 # LDM Docker
 
-[![Travis Status](https://travis-ci.org/Unidata/ldm-docker.svg?branch=master)](https://travis-ci.org/Unidata/ldm-docker)
-
 This repository contains files necessary to build and run a Docker container for the [LDM](http://www.unidata.ucar.edu/software/ldm/). 
 
 ## Versions
