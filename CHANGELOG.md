@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [6.13.16] - 2022-06-17
+
+### Changed
+- bumping version to `6.13.16`
+- base on rockylinux container as opposed to centOS
+- update to gosu 1.14
+- LDM user name now configurable
+- dumped Travis
+- implemented GitHub Actions workflow to:
+  - Build and test docker image
+  - Push updated image to dockerhub
+- minor bug fixes and improvements
+
 ## [6.13.13] - 2020-11-13
 
 ### Added
