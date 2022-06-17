@@ -2,7 +2,7 @@
 # LDM base dockerfile
 ###
 
-FROM centos:7
+FROM rockylinux:latest
 
 ###
 # Update the system. Install stuff.
@@ -12,9 +12,9 @@ RUN yum -y update yum
 
 # clean up (optimize now)
 
-RUN yum install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
+RUN yum install -y wget spax gcc libxml2-devel make libpng-devel rsyslog perl \
     zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl \
-    libstdc++-static
+    libstdc++-devel
 
 ###
 # gosu is a non-optimal way to deal with the mismatches between Unix user and
@@ -22,7 +22,7 @@ RUN yum install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
 # headaches when writing to directory outside the container.
 ###
 
-ENV GOSU_VERSION 1.11
+ENV GOSU_VERSION 1.14
 
 ENV GOSU_URL https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64
 
@@ -46,7 +46,7 @@ RUN curl -sSL $GOSU_URL -o /bin/gosu; \
 # LDM version
 ###
 
-ENV LDM_VERSION 6.13.13
+ENV LDM_VERSION 6.13.16
 
 ###
 # LDM HOME
