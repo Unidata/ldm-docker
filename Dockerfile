@@ -2,7 +2,7 @@
 # LDM base dockerfile
 ###
 
-FROM rockylinux:latest
+FROM unidata/rockylinux:latest-8
 
 ###
 # Update the system. Install stuff.
@@ -46,7 +46,7 @@ RUN curl -sSL $GOSU_URL -o /bin/gosu; \
 # LDM version
 ###
 
-ENV LDM_VERSION 6.13.16
+ENV LDM_VERSION 6.13.17
 
 ###
 # LDM HOME

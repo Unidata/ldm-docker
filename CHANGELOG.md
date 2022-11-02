@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [6.13.17] - 2022-11-01
+
+### Changed
+- bumping version to `6.13.17`
+- base on unidata/rockylinux:latest-8 to ensure some necessary tools are
+  installed
+
 ## [6.13.16] - 2022-06-17
 
 ### Changed
