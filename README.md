@@ -1,6 +1,6 @@
 # LDM Docker
 
-This repository contains files necessary to build and run a Docker container for the [LDM](http://www.unidata.ucar.edu/software/ldm/). 
+This repository contains files necessary to build and run a Docker container for the [LDM](http://www.unidata.ucar.edu/software/ldm/).
 
 ## Versions
 
@@ -67,6 +67,18 @@ you may wish to have corresponding entries in your crontab (e.g., `cron/ldm` fil
 17 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ARCTIC    2
 18 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/GEWCOMP   4
 ```
+
+##### Note on troubleshooting `ldmadmin scour`
+
+When running `ldmadmin scour` manually to test your scour configuration, you may run into warnings that look like the following:
+
+```bash
+[ldm@9bc83d08f79f etc]$ ldmadmin scour
+20221220T003634.938502Z scour[975675]               parser.c:loginHomeDir:531           WARN  loginHomeDir:getlogin() failed: No such device or address
+20221220T003634.938556Z scour[975675]               parser.c:isSameAsLoginDirectory:168 WARN  Could not determine login HOME
+```
+
+These may be red herrings and not necessarily a sign of `ldmadmin scour` running anomalously.
 
 ### Upstream Data Feed from Unidata or Elsewhere
 
@@ -150,20 +162,33 @@ which should give output that looks something like:
     time-offset limit:     10
 ## Running LDM (or Other Shell) Commands Inside the Container
 
-When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., `notifyme`). There are a couple of different ways you can accomplish this goal.
+When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., `notifyme`). Make sure you are user `ldm` and not `root`. Running LDM commands as `root` user can result in anomalous, and difficult to track down behavior. There are a couple of different ways you can accomplish this goal.
 
 1. You can enter the container with `docker exec -it <container name or ID> bash`. For example,
 
  ```bash
- $ docker exec -it ldm bash
- [ldm@291c06984ded ~]$ notifyme -vl- -h idd.unidata.ucar.edu
+$ docker exec -it ldm bash
+bash-4.4# su - ldm
+[ldm@291c06984ded ~]$ notifyme -vl- -h idd.unidata.ucar.edu
+ ```
+or
+
+```bash
+[ldm@291c06984ded ~]$ ldmadmin restart
  ```
 
-2. Or you can simply execute the command from outside the container with `docker exec <container name or ID> <command>`. For example,
+2. Or you can simply execute the command from outside the container with `docker exec <container name or ID> gosu ldm <command>`. (The `gosu` utility enables you to "drop down" to another user from `root`. Remember, when you first enter the container, you are `root` user.)  For example,
 
  ```bash
- docker exec ldm notifyme -vl- -h idd.unidata.ucar.edu
+ docker exec ldm gosu ldm notifyme -vl- -h idd.unidata.ucar.edu
  ```
+
+or
+
+```bash
+ docker exec ldm gosu ldm ldmadmin restart
+ ```
+
 ## Updating the LDM
 
 When Unidata releases a new version of the LDM, it is easy to update the container:
