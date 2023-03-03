@@ -2,7 +2,7 @@
 # LDM base dockerfile
 ###
 
-FROM rockylinux:latest
+FROM unidata/rockylinux:latest-8
 
 ###
 # Update the system. Install stuff.
@@ -12,9 +12,12 @@ RUN yum -y update yum
 
 # clean up (optimize now)
 
-RUN yum install -y wget spax gcc libxml2-devel make libpng-devel rsyslog perl \
+RUN yum -y update yum && \
+    yum install -y wget spax gcc libxml2-devel make libpng-devel rsyslog perl \
     zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl \
-    libstdc++-devel
+    libstdc++-devel chrony && \
+    yum clean all && \
+    rm -rf /var/cache/yum
 
 ###
 # gosu is a non-optimal way to deal with the mismatches between Unix user and
@@ -46,7 +49,7 @@ RUN curl -sSL $GOSU_URL -o /bin/gosu; \
 # LDM version
 ###
 
-ENV LDM_VERSION 6.13.16
+ENV LDM_VERSION 6.14.5
 
 ###
 # LDM HOME
@@ -114,6 +117,8 @@ COPY runldm.sh $HOME/bin/
 RUN chmod +x $HOME/bin/runldm.sh
 
 COPY README.md $HOME/
+
+COPY bashrc $HOME/.bashrc
 
 ##
 # entrypoint
