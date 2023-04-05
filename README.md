@@ -4,15 +4,7 @@ This repository contains files necessary to build and run a Docker container for
 
 ## Versions
 
-- `unidata/ldm-docker:latest`
-- `unidata/ldm-docker:6.14.5`
-- `unidata/ldm-docker:6.13.17`
-- `unidata/ldm-docker:6.13.16`
-- `unidata/ldm-docker:6.13.13`
-- `unidata/ldm-docker:6.13.11`
-- `unidata/ldm-docker:6.13.10`
-- `unidata/ldm-docker:6.13.7`
-- `unidata/ldm-docker:6.13.6`
+See tags listed [on dockerhub](https://hub.docker.com/r/unidata/ldm-docker/tags)
 
 ## Configuring the LDM
 ### Run Configuration with `docker-compose`
@@ -217,7 +209,7 @@ docker run --name ldm  \
      -v ./data/:/home/ldm/var/queues/ \
      -v ./logs/:/home/ldm/var/logs/ \
      -v ./cron/:/var/spool/cron/ \
-     -d -p 388:388 unidata/ldm-docker:latest
+     -d -p 388:388 unidata/ldm-docker:<version>
 ```
 
 where `LDM_USER_ID` and `LDM_GROUP_ID` have been configured with the UID/GID of the user running the container. If using `docker-compose`, see `compose.env` to configure the UID/GID of user `ldm` inside the container.
@@ -233,7 +225,7 @@ In order to cite this project, please simply make use of the Unidata LDM DOI: do
 
 This project comes with a self-contained example. To run it:
 
-1. `docker pull unidata/ldm-docker:latest`
+1. `docker pull unidata/ldm-docker:<version>`
 2. `cd example`
 3. possibly edit `etc/registry.xml` to change hostname currently set at `ldm-example.jetstream-cloud.org`
 4. possibly edit `etc/registry.xml` to change the LDM queue size currently set at `2G`
