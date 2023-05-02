@@ -1,15 +1,260 @@
-# LDM Docker
+- [Unidata LDM Docker](#h-62DFECEA)
+  - [Introduction](#h-18078CC5)
+  - [Versions](#h-A2FD2990)
+  - [Prerequisites](#h-AF97F2DC)
+  - [Installation](#h-CB0C0962)
+  - [Usage](#h-9349C7AF)
+    - [Upstream Data Feed from Unidata or Elsewhere](#h-62A78014)
+    - [Create LDM Directories on Docker Host](#h-E8938576)
+    - [Docker compose](#h-CF2B20CB)
+    - [Running LDM](#h-B170D5E0)
+    - [Stopping LDM](#h-81152971)
+    - [Delete LDM Container](#h-987BC10D)
+    - [Check What is Running](#h-77B9A5B4)
+    - [Running LDM (or Other Shell) Commands Inside the Container](#h-0C9E573F)
+    - [Updating the LDM](#h-796560DA)
+  - [Configuration](#h-2E05BCEF)
+    - [Docker compose](#h-18B4F365)
+    - [LDM Configuration Files](#h-487F14F2)
+    - [Configurable LDM UID and GID](#h-B2E37DB2)
+    - [Scouring from crontab](#h-5980F5C8)
+      - [Note on troubleshooting `ldmadmin scour`](#h-3A2F274D)
+    - [Additional Scouring](#h-0E2ACC51)
+  - [Self-Contained Example](#h-F23DB57C)
+  - [Citation](#h-9A911575)
+  - [Support](#h-1544BB3D)
 
-This repository contains files necessary to build and run a Docker container for the [LDM](http://www.unidata.ucar.edu/software/ldm/).
+
+
+<a id="h-62DFECEA"></a>
+
+# Unidata LDM Docker
+
+Dockerized [LDM](https://www.unidata.ucar.edu/software/ldm).
+
+
+<a id="h-18078CC5"></a>
+
+## Introduction
+
+This repository contains files necessary to build and run a LDM Docker container. The Unidata LDM Docker images associated with this repository are [available on DockerHub](https://hub.docker.com/r/unidata/ldm-docker/).
+
+
+<a id="h-A2FD2990"></a>
 
 ## Versions
 
-See tags listed [on dockerhub](https://hub.docker.com/r/unidata/ldm-docker/tags)
+See tags listed [on dockerhub](https://hub.docker.com/r/unidata/ldm-docker/tags).
 
-## Configuring the LDM
-### Run Configuration with `docker-compose`
 
-To run the LDM Docker container, beyond a basic Docker setup, we recommend installing [docker-compose](https://docs.docker.com/compose/).
+<a id="h-AF97F2DC"></a>
+
+## Prerequisites
+
+Before you begin using this Docker container project, make sure your system has Docker installed. Docker Compose is optional but recommended.
+
+
+<a id="h-CB0C0962"></a>
+
+## Installation
+
+You can either pull the image from DockerHub with:
+
+```sh
+docker pull unidata/ldm-docker:<version>
+```
+
+Or you can build it yourself with:
+
+1.  ****Clone the repository****: `git clone https://github.com/Unidata/ldm-docker.git`
+2.  ****Navigate to the project directory****: `cd ldm-docker`
+3.  ****Build the Docker image****: `docker build -t ldm-docker:<version>` .
+
+
+<a id="h-9349C7AF"></a>
+
+## Usage
+
+
+<a id="h-62A78014"></a>
+
+### Upstream Data Feed from Unidata or Elsewhere
+
+The LDM operates on a push data model. You will have to find an institution who will agree to push you the data you are interested in. If you are part of the academic community please send a support email to `support-idd@unidata.ucar.edu` to discuss your LDM data requirements.
+
+
+<a id="h-E8938576"></a>
+
+### Create LDM Directories on Docker Host
+
+You will want to create the local directories defined in the `docker-compose.yml` for the LDM `/home/ldm/var/logs` directory and `/home/ldm/var/data` directory. For example:
+
+```
+mkdir logs data
+```
+
+In typical LDM usage, the `data` directory is mounted on a data volume that can handle the amount of data you expect coming down the pipe. This `data` directory is usually not backed up.
+
+
+<a id="h-CF2B20CB"></a>
+
+### Docker compose
+
+To run the LDM Docker container, beyond a basic Docker setup, we recommend installing [docker-compose](https://docs.docker.com/compose/). `docker-compose` serves two purposes:
+
+1.  Reduce headaches involving unwieldy `docker` command lines where you are running `docker` with multiple volume mounts and port forwards. In situations like these, `docker` commands become difficult to issue and read. Instead, the lengthy `docker` command is captured in a `docker-compose.yml` that is easy to read, maintain, and can be committed to version control.
+
+2.  Coordinate the running of two or more containers. This can be useful for taking into account the same volume mountings, for example.
+
+However, `docker-compose` use is not mandatory. There is an example [docker-compose.yml](https://github.com/Unidata/ldm-docker/blob/master/docker-compose.yml) in this repository
+
+
+<a id="h-B170D5E0"></a>
+
+### Running LDM
+
+Once you have completed your `docker-compose.yml` setup, you can run the container with:
+
+```sh
+docker-compose up -d ldm
+```
+
+Note that if you have not pulled or built the LDM Docker image, this command will implicitly pull the image.
+
+The output of such command should be something like:
+
+```
+Creating ldm
+```
+
+
+<a id="h-81152971"></a>
+
+### Stopping LDM
+
+To stop this container:
+
+```sh
+docker-compose stop
+```
+
+
+<a id="h-987BC10D"></a>
+
+### Delete LDM Container
+
+To clean the slate and remove the container (not the image, the container):
+
+```sh
+docker-compose rm -f
+```
+
+
+<a id="h-77B9A5B4"></a>
+
+### Check What is Running
+
+To verify the LDM is alive you can run `ldmadmin config` **inside** the container. To do that, run:
+
+```sh
+docker exec ldm gosu ldm ldmadmin config
+```
+
+which should give output that looks something like:
+
+```
+hostname:              docker.localhost.local
+os:                    Linux
+release:               4.18.0-425.19.2.el8_7.x86_64
+ldmhome:               /home/ldm
+LDM version:           6.14.5
+PATH:                  /home/ldm/ldm-6.14.5/bin:/home/ldm/util:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ldm/bin
+LDM conf file:         /home/ldm/etc/ldmd.conf
+pqact(1) conf file:    /home/ldm/etc/pqact.conf
+scour(1) conf file:    /home/ldm/etc/scour.conf
+product queue:         /home/ldm/var/queues/ldm.pq
+queue size:            6G bytes
+queue slots:           default
+reconciliation mode:   do nothing
+pqsurf(1) path:        /home/ldm/var/queues/pqsurf.pq
+pqsurf(1) size:        2M
+IP address:            0.0.0.0
+port:                  388
+PID file:              /home/ldm/ldmd.pid
+Lock file:             /home/ldm/.ldmadmin.lck
+maximum clients:       256
+maximum latency:       3600
+time offset:           3600
+log file:              /home/ldm/var/logs/ldmd.log
+numlogs:               7
+log_rotate:            1
+netstat:               /usr/bin/netstat -A inet -t -n
+top:                   /usr/bin/top -b -n 1
+metrics file:          /home/ldm/var/logs/metrics.txt
+metrics files:         /home/ldm/var/logs/metrics.txt*
+num_metrics:           4
+check time:            1
+delete info files:     0
+ntpdate(1):            /usr/sbin/chronyd
+ntpdate(1) timeout:    5
+time servers:          ntp.ucsd.edu ntp1.cs.wisc.edu ntppub.tamu.edu otc1.psu.edu timeserver.unidata.ucar.edu
+time-offset limit:     10
+```
+
+
+<a id="h-0C9E573F"></a>
+
+### Running LDM (or Other Shell) Commands Inside the Container
+
+When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., `notifyme`). Make sure you are user `ldm` and not `root`. Running LDM commands as `root` user can result in anomalous, and difficult to track down behavior. There are a couple of different ways you can accomplish this goal.
+
+1.  You can enter the container with `docker exec -it <container name or ID> bash`. For example,
+
+```sh
+$ docker exec -it ldm bash
+bash-4.4# su - ldm
+[ldm@291c06984ded ~]$ notifyme -vl- -h idd.unidata.ucar.edu
+```
+
+or
+
+```sh
+[ldm@291c06984ded ~]$ ldmadmin restart
+```
+
+1.  Or you can simply execute the command from outside the container with `docker exec <container name or ID> gosu ldm <command>`. (The `gosu` utility enables you to "drop down" to another user from `root`. Remember, when you first enter the container, you are `root` user.) For example,
+
+```sh
+docker exec ldm gosu ldm notifyme -vl- -h idd.unidata.ucar.edu
+```
+
+or
+
+```sh
+docker exec ldm gosu ldm ldmadmin restart
+```
+
+
+<a id="h-796560DA"></a>
+
+### Updating the LDM
+
+When Unidata releases a new version of the LDM, it is easy to update the container:
+
+```sh
+docker pull unidata/ldm-docker:<version>
+docker-compose stop && docker-compose rm -f && docker-compose up -d ldm
+```
+
+
+<a id="h-2E05BCEF"></a>
+
+## Configuration
+
+
+<a id="h-18B4F365"></a>
+
+### Docker compose
 
 You can customize the default `docker-compose.yml` to decide:
 
@@ -23,184 +268,30 @@ For anyone who has worked with the LDM, you will be familiar with the following 
 -   `var/logs`
 -   `var/queues`
 
-These directory paths will be mounted outside the container with `docker-compose.yml`
+These directory paths will be mounted outside the container with `docker-compose.yml`.
+
+
+<a id="h-487F14F2"></a>
 
 ### LDM Configuration Files
 
-In the `etc` directory, you will have to do the usual LDM configuration by editing:
+In the `etc` directory of this repository, you will have to do the usual LDM configuration by editing:
 
 -   `ldmd.conf`
 -   `registry.xml`
 -   `scour.conf`
 -   `pqact.conf`
 
-#### crontab
 
-The [recommended LDM crontab entries](http://www.unidata.ucar.edu/software/ldm/ldm-current/basics/configuring.html#cron) have been installed inside the container. You can modify the LDM crontab by editing the `cron/ldm` file. This  file can be mounted over `/var/spool/cron/ldm` with `docker-compose.yml`. See the `docker-compose.yml` file herein for an example.
+<a id="h-B2E37DB2"></a>
 
-#### Additional Scouring
+### Configurable LDM UID and GID
 
-The scouring facilities built-in to the LDM mysteriously do not have the ability to scour empty directories. In this container, therefore, are included additional scouring utility scripts that will scour empty directories as well.
+The problem with mounted Docker volumes and UID/DIG mismatch headaches is best explained here: <https://denibertovic.com/posts/handling-permissions-with-docker-volumes/>.
 
-- `scourBYnumber`
-- `scourBYempty `
-- `scourBYday`
+This container allows the possibility of controlling the UID/GID of the `ldm` user inside the container via `LDM_USER_ID` and `LDM_GROUP_ID` environment variables. If not set, the default UID/GID is `1000~/~1000`. For example,
 
-Typically, these will be invoked from cron and will correspond to the same directories being scoured in `scour.conf`. For example, if you have a `scour.conf` that has the following entries:
-
-```
-/data/ldm/pub/decoded/gempak/areas/ANTARCTIC	2
-/data/ldm/pub/decoded/gempak/areas/ARCTIC	2
-/data/ldm/pub/decoded/gempak/areas/GEWCOMP	4
-```
-
-you may wish to have corresponding entries in your crontab (e.g., `cron/ldm` file that will be mounted into the container with `docker-compose.yml`) file:
-
-```
-16 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ANTARCTIC 2
-17 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ARCTIC    2
-18 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/GEWCOMP   4
-```
-
-##### Note on troubleshooting `ldmadmin scour`
-
-When running `ldmadmin scour` manually to test your scour configuration, you may run into warnings that look like the following:
-
-```bash
-[ldm@9bc83d08f79f etc]$ ldmadmin scour
-20221220T003634.938502Z scour[975675]               parser.c:loginHomeDir:531           WARN  loginHomeDir:getlogin() failed: No such device or address
-20221220T003634.938556Z scour[975675]               parser.c:isSameAsLoginDirectory:168 WARN  Could not determine login HOME
-```
-
-These may be red herrings and not necessarily a sign of `ldmadmin scour` running anomalously.
-
-### Upstream Data Feed from Unidata or Elsewhere
-
-The LDM operates on a push data model. You will have to find an institution who will agree to push you the data you are interested in. If you are part of the academic community please send a support email to `support-idd@unidata.ucar.edu` to discuss your LDM data requirements.
-
-### Create LDM Directories on Docker Host
-
-You will want to create the local directories defined in the `docker-compose.yml` for the LDM `/home/ldm/var/logs` directory and `/home/ldm/var/data` directory. For example:
-
-    mkdir logs data
-
-In typical LDM usage, the `data` directory is mounted on a data volume that can handle the amount of data you expect coming down the pipe. This `data` directory is usually not backed up.
-
-### Running LDM
-
-Once you have completed your `docker-compose.yml` setup, you can run the container with:
-
-    docker-compose up -d ldm
-
-Note that if you have not pulled or built the LDM Docker image, this command will implicitly pull the image.
-
-The output of such command should be something like:
-
-    Creating ldm
-
-### Stopping LDM
-
-To stop this container:
-
-    docker-compose stop
-
-### Delete LDM Container
-
-To clean the slate and remove the container (not the image, the container):
-
-    docker-compose rm -f
-
-## Check What is Running
-
-To verify the LDM is alive you can run `ldmadmin config` **inside** the container. To do that, run:
-
-    docker exec ldm ldmadmin config
-
-which should give output that looks something like:
-
-    hostname:              changeme.foo.bar.com
-    os:                    Linux
-    release:               4.4.12-boot2docker
-    ldmhome:               /home/ldm
-    LDM version:           6.13.1
-    PATH:                  /home/ldm/ldm-6.13.1/bin:/home/ldm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    LDM conf file:         /home/ldm/etc/ldmd.conf
-    pqact(1) conf file:    /home/ldm/etc/pqact.conf
-    scour(1) conf file:    /home/ldm/etc/scour.conf
-    product queue:         /home/ldm/var/queues/ldm.pq
-    queue size:            500M bytes
-    queue slots:           default
-    reconciliation mode:   do nothing
-    pqsurf(1) path:        /home/ldm/var/queues/pqsurf.pq
-    pqsurf(1) size:        2M
-    IP address:            0.0.0.0
-    port:                  388
-    PID file:              /home/ldm/ldmd.pid
-    Lock file:             /home/ldm/.ldmadmin.lck
-    maximum clients:       256
-    maximum latency:       3600
-    time offset:           3600
-    log file:              /home/ldm/var/logs/ldmd.log
-    numlogs:               7
-    log_rotate:            1
-    netstat:               true
-    top:                   /usr/bin/top -b -n 1
-    metrics file:          /home/ldm/var/logs/metrics.txt
-    metrics files:         /home/ldm/var/logs/metrics.txt*
-    num_metrics:           4
-    check time:            1
-    delete info files:     0
-    ntpdate(1):            ntpdate
-    ntpdate(1) timeout:    5
-    time servers:          ntp.ucsd.edu ntp1.cs.wisc.edu ntppub.tamu.edu otc1.psu.edu timeserver.unidata.ucar.edu
-    time-offset limit:     10
-## Running LDM (or Other Shell) Commands Inside the Container
-
-When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., `notifyme`). Make sure you are user `ldm` and not `root`. Running LDM commands as `root` user can result in anomalous, and difficult to track down behavior. There are a couple of different ways you can accomplish this goal.
-
-1. You can enter the container with `docker exec -it <container name or ID> bash`. For example,
-
- ```bash
-$ docker exec -it ldm bash
-bash-4.4# su - ldm
-[ldm@291c06984ded ~]$ notifyme -vl- -h idd.unidata.ucar.edu
- ```
-or
-
-```bash
-[ldm@291c06984ded ~]$ ldmadmin restart
- ```
-
-2. Or you can simply execute the command from outside the container with `docker exec <container name or ID> gosu ldm <command>`. (The `gosu` utility enables you to "drop down" to another user from `root`. Remember, when you first enter the container, you are `root` user.)  For example,
-
- ```bash
- docker exec ldm gosu ldm notifyme -vl- -h idd.unidata.ucar.edu
- ```
-
-or
-
-```bash
- docker exec ldm gosu ldm ldmadmin restart
- ```
-
-## Updating the LDM
-
-When Unidata releases a new version of the LDM, it is easy to update the container:
-
-```bash
-docker pull unidata/ldm-docker:<version>
-docker-compose stop
-docker-compose up -d ldm
-```
-
-## Configurable LDM UID and GID
-
-The problem with mounted Docker volumes and UID/DIG mismatch headaches is best explained here: https://denibertovic.com/posts/handling-permissions-with-docker-volumes/.
-
-This container allows the possibility of controlling the UID/GID of the `ldm` user inside the container via `LDM_USER_ID` and `LDM_GROUP_ID` environment variables. If not set, the default UID/GID is `1000`/`1000`. For example,
-
-
-```bash
+```sh
 docker run --name ldm  \
      -e LDM_USER_ID=`id -u`  \
      -e LDM_GROUP_ID=`getent group $USER | cut -d':' -f3`  \
@@ -218,20 +309,74 @@ This feature enables greater control of file permissions written outside the con
 
 Note that this UID/GID configuration option will not work on operating systems where Docker is not native (e.g., macOS).
 
-## Citation
 
-In order to cite this project, please simply make use of the Unidata LDM DOI: doi:10.5065/D64J0CT0 https://doi.org/10.5065/D64J0CT0
+<a id="h-5980F5C8"></a>
+
+### Scouring from crontab
+
+The [recommended LDM crontab entries](http://www.unidata.ucar.edu/software/ldm/ldm-current/basics/configuring.html#cron) have been installed inside the container. You can modify the LDM crontab by editing the `cron/ldm` file. This file can be mounted over `/var/spool/cron/ldm` with `docker-compose.yml`. See the `docker-compose.yml` file herein for an example.
+
+
+<a id="h-3A2F274D"></a>
+
+#### Note on troubleshooting `ldmadmin scour`
+
+When running `ldmadmin scour` manually to test your scour configuration (i.e., `scour.conf`), you may run into warnings that look like the following:
+
+```
+[ldm@9bc83d08f79f etc]$ ldmadmin scour
+20221220T003634.938502Z scour[975675]               parser.c:loginHomeDir:531           WARN  loginHomeDir:getlogin() failed: No such device or address
+20221220T003634.938556Z scour[975675]               parser.c:isSameAsLoginDirectory:168 WARN  Could not determine login HOME
+```
+
+These may be red herrings and not necessarily a sign of `ldmadmin scour` running anomalously.
+
+To see if scour is behaving as expected, you can issue this command which gives the oldest file in the `/data` directory tree or wherever data needs to be scoured:
+
+```sh
+find /data -type f -printf '%T+ %p\n' | sort | head -n 1
+```
+
+
+<a id="h-0E2ACC51"></a>
+
+### Additional Scouring
+
+The scouring facilities built-in to the LDM mysteriously do not have the ability to scour empty directories. In this container, therefore, are included additional scouring utility scripts that will scour empty directories as well.
+
+-   `scourBYnumber`
+-   `scourBYempty`
+-   `scourBYday`
+
+Typically, these will be invoked from cron and will correspond to the same directories being scoured in `scour.conf`. For example, if you have a `scour.conf` that has the following entries:
+
+```
+/data/ldm/pub/decoded/gempak/areas/ANTARCTIC    2
+/data/ldm/pub/decoded/gempak/areas/ARCTIC   2
+/data/ldm/pub/decoded/gempak/areas/GEWCOMP  4
+```
+
+you may wish to have corresponding entries in your crontab (e.g., `cron/ldm` file that will be mounted into the container with `docker-compose.yml`) file:
+
+```
+16 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ANTARCTIC 2
+17 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/ARCTIC    2
+18 0 * * * /home/ldm/util/scourBYday /data/ldm/pub/decoded/gempak/areas/GEWCOMP   4
+```
+
+
+<a id="h-F23DB57C"></a>
+
 ## Self-Contained Example
 
 This project comes with a self-contained example. To run it:
 
-1. `docker pull unidata/ldm-docker:<version>`
-2. `cd example`
-3. possibly edit `etc/registry.xml` to change hostname currently set at `ldm-example.jetstream-cloud.org`
-4. possibly edit `etc/registry.xml` to change the LDM queue size currently set at `2G`
-5. edit `compose.env` to set `UID` and `GID` of user running container
-6. `docker-compose up -d`
-
+1.  `docker pull unidata/ldm-docker:<version>`
+2.  `cd example`
+3.  possibly edit `etc/registry.xml` to change hostname currently set at `ldm-example.jetstream-cloud.org`
+4.  possibly edit `etc/registry.xml` to change the LDM queue size currently set at `2G`
+5.  edit `compose.env` to set `UID` and `GID` of user running container
+6.  `docker-compose up -d`
 
 Assuming you have permission to request data from `iddb.unidata.ucar.edu` (see `example/etc/ldmd.conf`), after a few moments you should see data. For example:
 
@@ -241,8 +386,18 @@ Assuming you have permission to request data from `iddb.unidata.ucar.edu` (see `
 ./example/data/ldm/pub/native/radar/composite/grib2/N0R/20180301/Level3_Composite_N0R_20180301_2020.grib2
 ```
 
+
+<a id="h-9A911575"></a>
+
+## Citation
+
+In order to cite this project, please simply make use of the Unidata LDM DOI: https://doi.org/10.5065/D64J0CT0 <https://doi.org/10.5065/D64J0CT0>
+
+
+<a id="h-1544BB3D"></a>
+
 ## Support
 
-If you have a question or would like support for this LDM Docker container, consider [submitting a GitHub issue](https://github.com/Unidata/ldm-docker/issues). Alternatively, you may wish to start a discussion on the LDM Community mailing list: <ldm-users@unidata.ucar.edu>.
+If you have a question or would like support for this LDM Docker container, consider [submitting a GitHub issue](https://github.com/Unidata/ldm-docker/issues). Alternatively, you may wish to start a discussion on the LDM Community mailing list: [ldm-users@unidata.ucar.edu](mailto:ldm-users@unidata.ucar.edu).
 
 For general LDM questions, please see the [Unidata LDM page](https://www.unidata.ucar.edu/software/ldm/).
