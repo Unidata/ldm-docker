@@ -3,6 +3,7 @@
 #+options: email:nil f:t inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
 #+options: auto-id:t
+#+OPTIONS: H:6
 
 #+title: readme
 #+date: <2023-05-02 Tue>
@@ -12,7 +13,6 @@
 #+select_tags: export
 #+exclude_tags: noexport
 #+creator: Emacs 28.2 (Org mode 9.7-pre)
-#+cite_export:
 
 #+PROPERTY: header-args :eval no :results none
 
@@ -216,8 +216,7 @@ which should give output that looks something like:
 :END:
 When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., =notifyme=). Make sure you are user =ldm= and not =root=. Running LDM commands as =root= user can result in anomalous, and difficult to track down behavior. There are a couple of different ways you can accomplish this goal.
 
-1. You can enter the container with
-   =docker exec -it <container name or ID> bash=. For example,
+You can enter the container with =docker exec -it <container name or ID> bash=. For example,
 
 #+begin_src sh
   $ docker exec -it ldm bash
@@ -231,7 +230,7 @@ or
   [ldm@291c06984ded ~]$ ldmadmin restart
 #+end_src
 
-2. Or you can simply execute the command from outside the container with =docker exec <container name or ID> gosu ldm <command>=. (The =gosu= utility enables you to "drop down" to another user from =root=. Remember, when you first enter the container, you are =root= user.) For example,
+Or you can simply execute the command from outside the container with =docker exec <container name or ID> gosu ldm <command>=. (The =gosu= utility enables you to "drop down" to another user from =root=. Remember, when you first enter the container, you are =root= user.) For example,
 
 #+begin_src sh
   docker exec ldm gosu ldm notifyme -vl- -h idd.unidata.ucar.edu
