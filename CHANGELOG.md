@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
-## [6.13.17] - 2022-11-01
+## [6.14.5] - 2022-11-01
 
 ### Changed
 - bumping version to `6.14.5`
@@ -111,7 +111,10 @@ All notable changes to this project will be documented in this file. This change
 - `README` additions
 - `docker-compose.yml` `ldm` container name reference
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.13.13...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.14.5...HEAD
+[6.14.5]: https://github.com/Unidata/ldm-docker/compare/v6.13.17...v6.14.5
+[6.13.17]: https://github.com/Unidata/ldm-docker/compare/v6.13.16...v6.13.17
+[6.13.16]: https://github.com/Unidata/ldm-docker/compare/v6.13.13...v6.13.16
 [6.13.13]: https://github.com/Unidata/ldm-docker/compare/v6.13.11...v6.13.13
 [6.13.11]: https://github.com/Unidata/ldm-docker/compare/v6.13.10...v6.13.11
 [6.13.10]: https://github.com/Unidata/ldm-docker/compare/v6.13.7...v6.13.10
