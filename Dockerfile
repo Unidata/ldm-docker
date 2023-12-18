@@ -2,7 +2,7 @@ FROM unidata/rockylinux:latest-8
 
 ENV GOSU_VERSION 1.17
 ENV GOSU_URL https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64
-ENV LDM_VERSION 6.14.5
+ENV LDM_VERSION 6.15.0
 ENV HOME /home/ldm
 ENV PATH $HOME/bin:$PATH
 

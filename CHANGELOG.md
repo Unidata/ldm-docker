@@ -1,6 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [6.15.0] - 2023-12-18
+
+### Added
+- New `.bashrc` file with user-specific aliases and functions, and a warning message for users starting a shell as root.
+
+### Changed
+- bumping version to `6.15.0`
+- Dockerfile significantly overhauled:
+  - base image changed to `unidata/rockylinux:latest-8`
+  - updated GOSU version
+  - streamlined setup and installation scripts
+- `README.md` expanded significantly with detailed sections providing comprehensive information on using the Unidata LDM Docker container.
+
+### Fixed
+- `install_ldm.sh` script updated, changing the source URL for downloading the LDM tarball and updating logging for the configure and make commands.
+
 ## [6.14.5] - 2022-11-01
 
 ### Changed
@@ -111,7 +127,8 @@ All notable changes to this project will be documented in this file. This change
 - `README` additions
 - `docker-compose.yml` `ldm` container name reference
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.14.5...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.15.0...HEAD
+[6.15.0]: https://github.com/Unidata/ldm-docker/compare/v6.14.5...v6.15.0
 [6.14.5]: https://github.com/Unidata/ldm-docker/compare/v6.13.17...v6.14.5
 [6.13.17]: https://github.com/Unidata/ldm-docker/compare/v6.13.16...v6.13.17
 [6.13.16]: https://github.com/Unidata/ldm-docker/compare/v6.13.13...v6.13.16
