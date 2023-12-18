@@ -2,20 +2,19 @@
 
 # User specific aliases and functions
 
+# Safe versions of default commands
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-# Source global definitions
+# Source global definitions if available
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    . /etc/bashrc
 fi
 
-# Warn user if they start a shell as root
-if [ "$(whoami)" = "root" ];
-then
-echo " !!!!!!!!!!!!!!!!!!!!!!!!!!
-! WARNING: YOU ARE ROOT. !
-!!!!!!!!!!!!!!!!!!!!!!!!!!
-Login as user ldm before proceeding unless you know what you're doing: su ldm"
+# Warning when logged in as root
+if [ "$(id -u)" -eq 0 ]; then
+    echo "!! WARNING: Logged in as root !!"
+    echo "Consider switching to a regular user."
+    echo "e.g., su ldm"
 fi
