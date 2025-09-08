@@ -17,7 +17,7 @@ COPY .profile $HOME
 
 WORKDIR $HOME
 
-RUN yum -y update yum && \
+RUN yum -y update && \
     yum install -y wget spax gcc libxml2-devel make libpng-devel rsyslog perl \
     zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl \
     libstdc++-devel chrony && \
