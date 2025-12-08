@@ -17,12 +17,12 @@ COPY .profile $HOME
 
 WORKDIR $HOME
 
-RUN yum -y update && \
-    yum install -y wget spax gcc libxml2-devel make libpng-devel rsyslog perl \
+RUN dnf -y update && \
+    dnf install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
     zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl \
     libstdc++-devel chrony && \
-    yum clean all && \
-    rm -rf /var/cache/yum && \
+    dnf clean all && \
+    rm -rf /var/cache/dnf && \
     # gosu install start
     curl -sSL $GOSU_URL -o /bin/gosu; \
     curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc; \
