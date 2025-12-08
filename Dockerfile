@@ -1,7 +1,10 @@
 FROM rockylinux:9
 
+ARG TARGETARCH
+ENV TARGETARCH=${TARGETARCH:-amd64}
+
 ENV GOSU_VERSION=1.19
-ENV GOSU_URL=https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64
+ENV GOSU_URL=https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-${TARGETARCH}
 ENV LDM_VERSION=6.15.0
 ENV HOME=/home/ldm
 ENV PATH=$HOME/bin:$PATH

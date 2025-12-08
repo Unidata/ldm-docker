@@ -88,6 +88,16 @@ Or you can build it yourself with:
   2. **Navigate to the project directory**: ~cd ldm-docker~
   3. **Build the Docker image**: ~docker build -t ldm-docker:<version>~ .
 
+Or if you wish to handle multiple architectures with ~buildx~:
+
+#+begin_src sh
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t unidata/ldm-docker:<version> --push .
+#+end_src
+
+For more information, see [[#h-3E3FD740][Appendix: Enabling Multi-Architecture Docker Builds With buildx]].
+
 ** Usage
 :PROPERTIES:
 :CUSTOM_ID: h-9349C7AF
@@ -399,3 +409,57 @@ In order to cite this project, please simply make use of the Unidata LDM DOI: [[
 If you have a question or would like support for this LDM Docker container, consider [[https://github.com/Unidata/ldm-docker/issues][submitting a GitHub issue]]. Alternatively, you may wish to start a discussion on the LDM Community mailing list: [[mailto:ldm-users@unidata.ucar.edu][ldm-users@unidata.ucar.edu]].
 
 For general LDM questions, please see the [[https://www.unidata.ucar.edu/software/ldm/][Unidata LDM page]].
+** Appendix: Enabling Multi-Architecture Docker Builds With buildx
+:PROPERTIES:
+:CUSTOM_ID: h-3E3FD740
+:END:
+
+This is the sequence of commands needed to set up a multi-architecture (amd64 + arm64) buildx environment.
+
+*** Install QEMU/binfmt Emulation
+:PROPERTIES:
+:CUSTOM_ID: h-3D594FDD
+:END:
+
+#+begin_src sh
+  docker run --rm --privileged tonistiigi/binfmt --install all
+#+end_src
+
+Loads QEMU interpreters and registers ~binfmt~ handlers so the host can run foreign-architecture binaries (e.g., arm64 on amd64).
+
+*** Create a New buildx Builder With Multi-Arch Support
+:PROPERTIES:
+:CUSTOM_ID: h-1FE91E4A
+:END:
+
+#+begin_src sh
+  docker buildx create \
+    --name ldm-builder \
+    --driver docker-container \
+    --use \
+    --platform linux/amd64,linux/arm64
+#+end_src
+
+Creates a BuildKit-based builder capable of producing multi-arch images.
+
+*** Bootstrap the Builder
+:PROPERTIES:
+:CUSTOM_ID: h-C3A5705A
+:END:
+
+#+begin_src sh
+  docker buildx inspect ldm-builder --bootstrap
+#+end_src
+
+Initializes the BuildKit container and loads the binfmt/QEMU capabilities.
+
+*** Verify Supported Platforms
+:PROPERTIES:
+:CUSTOM_ID: h-8855F792
+:END:
+
+#+begin_src sh
+ docker buildx inspect ldm-builder
+#+end_src
+
+The "Platforms" line should now include ~linux/amd64~ and ~linux/arm64~.

@@ -23,6 +23,11 @@
   - [Self-Contained Example](#h-F23DB57C)
   - [Citation](#h-9A911575)
   - [Support](#h-1544BB3D)
+  - [Appendix: Enabling Multi-Architecture Docker Builds With buildx](#h-3E3FD740)
+    - [Install QEMU/binfmt Emulation](#h-3D594FDD)
+    - [Create a New buildx Builder With Multi-Arch Support](#h-1FE91E4A)
+    - [Bootstrap the Builder](#h-C3A5705A)
+    - [Verify Supported Platforms](#h-8855F792)
 
 
 
@@ -69,6 +74,16 @@ Or you can build it yourself with:
 1.  ****Clone the repository****: `git clone https://github.com/Unidata/ldm-docker.git`
 2.  ****Navigate to the project directory****: `cd ldm-docker`
 3.  ****Build the Docker image****: `docker build -t ldm-docker:<version>` .
+
+Or if you wish to handle multiple architectures with `buildx`:
+
+```sh
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t unidata/ldm-docker:<version> --push .
+```
+
+For more information, see [Appendix: Enabling Multi-Architecture Docker Builds With buildx](#h-3E3FD740).
 
 
 <a id="h-9349C7AF"></a>
@@ -208,7 +223,7 @@ time-offset limit:     10
 
 When using the LDM in any realistic scenario, you will want to execute LDM commands (e.g., `notifyme`). Make sure you are user `ldm` and not `root`. Running LDM commands as `root` user can result in anomalous, and difficult to track down behavior. There are a couple of different ways you can accomplish this goal.
 
-1.  You can enter the container with `docker exec -it <container name or ID> bash`. For example,
+You can enter the container with `docker exec -it <container name or ID> bash`. For example,
 
 ```sh
 $ docker exec -it ldm bash
@@ -222,7 +237,7 @@ or
 [ldm@291c06984ded ~]$ ldmadmin restart
 ```
 
-1.  Or you can simply execute the command from outside the container with `docker exec <container name or ID> gosu ldm <command>`. (The `gosu` utility enables you to "drop down" to another user from `root`. Remember, when you first enter the container, you are `root` user.) For example,
+Or you can simply execute the command from outside the container with `docker exec <container name or ID> gosu ldm <command>`. (The `gosu` utility enables you to "drop down" to another user from `root`. Remember, when you first enter the container, you are `root` user.) For example,
 
 ```sh
 docker exec ldm gosu ldm notifyme -vl- -h idd.unidata.ucar.edu
@@ -401,3 +416,58 @@ In order to cite this project, please simply make use of the Unidata LDM DOI: ht
 If you have a question or would like support for this LDM Docker container, consider [submitting a GitHub issue](https://github.com/Unidata/ldm-docker/issues). Alternatively, you may wish to start a discussion on the LDM Community mailing list: [ldm-users@unidata.ucar.edu](mailto:ldm-users@unidata.ucar.edu).
 
 For general LDM questions, please see the [Unidata LDM page](https://www.unidata.ucar.edu/software/ldm/).
+
+
+<a id="h-3E3FD740"></a>
+
+## Appendix: Enabling Multi-Architecture Docker Builds With buildx
+
+This is the sequence of commands needed to set up a multi-architecture (amd64 + arm64) buildx environment.
+
+
+<a id="h-3D594FDD"></a>
+
+### Install QEMU/binfmt Emulation
+
+```sh
+docker run --rm --privileged tonistiigi/binfmt --install all
+```
+
+Loads QEMU interpreters and registers `binfmt` handlers so the host can run foreign-architecture binaries (e.g., arm64 on amd64).
+
+
+<a id="h-1FE91E4A"></a>
+
+### Create a New buildx Builder With Multi-Arch Support
+
+```sh
+docker buildx create \
+  --name ldm-builder \
+  --driver docker-container \
+  --use \
+  --platform linux/amd64,linux/arm64
+```
+
+Creates a BuildKit-based builder capable of producing multi-arch images.
+
+
+<a id="h-C3A5705A"></a>
+
+### Bootstrap the Builder
+
+```sh
+docker buildx inspect ldm-builder --bootstrap
+```
+
+Initializes the BuildKit container and loads the binfmt/QEMU capabilities.
+
+
+<a id="h-8855F792"></a>
+
+### Verify Supported Platforms
+
+```sh
+docker buildx inspect ldm-builder
+```
+
+The "Platforms" line should now include `linux/amd64` and `linux/arm64`.
