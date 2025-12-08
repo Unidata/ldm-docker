@@ -1,4 +1,4 @@
-FROM unidata/rockylinux:latest-8
+FROM rockylinux:9
 
 ENV GOSU_VERSION=1.19
 ENV GOSU_URL=https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64
@@ -18,11 +18,15 @@ COPY .profile $HOME
 WORKDIR $HOME
 
 RUN dnf -y update && \
-    dnf install -y wget pax gcc libxml2-devel make libpng-devel rsyslog perl \
-    zlib-devel bzip2 git curl sudo cronie bc net-tools man gnuplot tcl \
-    libstdc++-devel chrony && \
-    dnf clean all && \
-    rm -rf /var/cache/dnf && \
+    dnf -y install dnf-plugins-core epel-release && \
+    dnf config-manager --set-enabled devel && \
+    dnf -y install spax && \
+    dnf config-manager --set-disabled devel && \
+    dnf -y install \
+        bc bzip2 chrony cronie gcc git gnuplot \
+        libpng-devel libstdc++-devel libxml2-devel make man-db net-tools perl \
+        procps-ng rsyslog sudo tcl wget zlib-devel && \
+    dnf clean all && rm -rf /var/cache/dnf && \
     # gosu install start
     curl -sSL $GOSU_URL -o /bin/gosu; \
     curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc; \
@@ -36,7 +40,7 @@ RUN dnf -y update && \
     rm -rf "$GNUPGHOME" /tmp/gosu.asc; \
     # gosu install end
     mkdir -p /home/ldm/var/{queues,data} && \
-    chmod +s /sbin/crond && \
+    chmod +s /usr/sbin/crond && \
     chmod +x /bin/gosu $HOME/install_ldm.sh $HOME/install_ldm_root_actions.sh \
      /entrypoint.sh && \
     $HOME/install_ldm.sh && \
