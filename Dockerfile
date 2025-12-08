@@ -28,12 +28,8 @@ RUN yum -y update && \
     curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc; \
     export GNUPGHOME="$(mktemp -d)"; \
     export KEY=B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-    for server in $(shuf -e ha.pool.sks-keyservers.net \
-                            hkp://p80.pool.sks-keyservers.net:80 \
-                            keyserver.ubuntu.com \
-                            hkp://keyserver.ubuntu.com:80 \
-                            keyserver.pgp.com \
-                            pgp.mit.edu) ; do \
+    for server in $(shuf -e keyserver.ubuntu.com \
+                            hkp://keyserver.ubuntu.com:80 ) ; do \
         gpg --batch --keyserver "$server" --recv-keys $KEY && break || : ; \
     done; \
     gpg --batch --verify /tmp/gosu.asc /bin/gosu; \
