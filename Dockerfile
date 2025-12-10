@@ -31,16 +31,17 @@ RUN dnf -y update && \
         procps-ng rsyslog sudo tcl wget zlib-devel && \
     dnf clean all && rm -rf /var/cache/dnf && \
     # gosu install start
-    curl -sSL $GOSU_URL -o /bin/gosu; \
-    curl -sSL $GOSU_URL.asc -o /tmp/gosu.asc; \
-    export GNUPGHOME="$(mktemp -d)"; \
-    export KEY=B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+    curl -fsSL $GOSU_URL -o /bin/gosu && \
+    curl -fsSL $GOSU_URL.asc -o /tmp/gosu.asc && \
+    export GNUPGHOME="$(mktemp -d)" && \
+    # @tianon's, maintainer of gosu, public key, in case you are wondering
+    export KEY=B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
     for server in $(shuf -e keyserver.ubuntu.com \
                             hkp://keyserver.ubuntu.com:80 ) ; do \
         gpg --batch --keyserver "$server" --recv-keys $KEY && break || : ; \
-    done; \
-    gpg --batch --verify /tmp/gosu.asc /bin/gosu; \
-    rm -rf "$GNUPGHOME" /tmp/gosu.asc; \
+    done && \
+    gpg --batch --verify /tmp/gosu.asc /bin/gosu && \
+    rm -rf "$GNUPGHOME" /tmp/gosu.asc && \
     # gosu install end
     mkdir -p /home/ldm/var/{queues,data} && \
     chmod +s /usr/sbin/crond && \
