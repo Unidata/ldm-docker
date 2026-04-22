@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [Unreleased]
+
+### Changed
+- base image bumped from `rockylinux:9` to `rockylinux/rockylinux:10` (Rocky Linux 10.1)
+- `actions/checkout` bumped from `v2` to `v5` in GitHub Actions workflow
+
+### Removed
+- `gnuplot` dropped from installed packages; it is not yet available in EPEL 10.1 (expected in EPEL 10.2). `ldmadmin plotMetrics` will not work until it is restored.
+
 ## [6.15.0] - 2023-12-18
 
 ### Added

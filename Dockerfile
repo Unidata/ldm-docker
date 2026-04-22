@@ -1,4 +1,4 @@
-FROM rockylinux:9
+FROM rockylinux/rockylinux:10
 
 ARG TARGETARCH
 ENV TARGETARCH=${TARGETARCH:-amd64}
@@ -26,7 +26,7 @@ RUN dnf -y update && \
     dnf -y install spax && \
     dnf config-manager --set-disabled devel && \
     dnf -y install \
-        bc bzip2 chrony cronie gcc git gnuplot \
+        bc bzip2 chrony cronie gcc git \
         libpng-devel libstdc++-devel libxml2-devel make man-db net-tools perl \
         procps-ng rsyslog sudo tcl wget zlib-devel && \
     dnf clean all && rm -rf /var/cache/dnf && \
