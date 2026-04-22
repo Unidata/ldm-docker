@@ -28,7 +28,7 @@ jobs:
         echo "containerName=ldm" >> $GITHUB_ENV
 
     # Checkout the commit that triggered the workflow
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
 
     - name: Build the Docker image
       run: docker build --no-cache --tag ${{ secrets.imagename }}:${{ env.tag }} .
