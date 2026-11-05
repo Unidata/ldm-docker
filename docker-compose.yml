@@ -6,7 +6,7 @@ services:
   # LDM
   ###
   ldm:
-    image: unidata/ldm-docker:6.15.0
+    image: unidata/ldm-docker:6.15.1
     container_name: ldm
     # restart: always
     volumes:
