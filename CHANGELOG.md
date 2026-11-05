@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [6.15.1] - 2026-11-05
+
+### Changed
+- bumping version to `6.15.1`
+- moved the container base to Rocky Linux 9 and migrated package management from `yum` to `dnf`
+- updated GOSU to `1.20`
+- added multi-architecture image support for AMD64 and ARM64 and `buildx` documentation
+
 ## [6.15.0] - 2023-12-18
 
 ### Added
@@ -127,7 +135,8 @@ All notable changes to this project will be documented in this file. This change
 - `README` additions
 - `docker-compose.yml` `ldm` container name reference
 
-[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.15.0...HEAD
+[Unreleased]: https://github.com/Unidata/ldm-docker/compare/v6.15.1...HEAD
+[6.15.1]: https://github.com/Unidata/ldm-docker/compare/v6.15.0...v6.15.1
 [6.15.0]: https://github.com/Unidata/ldm-docker/compare/v6.14.5...v6.15.0
 [6.14.5]: https://github.com/Unidata/ldm-docker/compare/v6.13.17...v6.14.5
 [6.13.17]: https://github.com/Unidata/ldm-docker/compare/v6.13.16...v6.13.17
