@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -euxo pipefail
 
 wget https://downloads.unidata.ucar.edu/ldm/${LDM_VERSION}/ldm-${LDM_VERSION}.tar.gz
 

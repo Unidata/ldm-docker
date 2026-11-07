@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -euxo pipefail
 
 cd /home/ldm/ldm-${LDM_VERSION}/src
 

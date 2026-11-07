@@ -26,7 +26,7 @@ RUN dnf -y update && \
     dnf -y install spax && \
     dnf config-manager --set-disabled devel && \
     dnf -y install \
-        bc bzip2 chrony cronie gcc git gnuplot \
+        autoconf bc bzip2 chrony cronie gcc git gnuplot \
         libpng-devel libstdc++-devel libxml2-devel make man-db net-tools perl \
         procps-ng rsyslog sudo tcl wget zlib-devel && \
     dnf clean all && rm -rf /var/cache/dnf && \
